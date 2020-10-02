@@ -7,7 +7,7 @@ HOST = "localhost"
 PORT = 4300
 
 
-def format(message: str) -> bytes:
+def format(message: list) -> bytes:
     """Convert (encode) the message to bytes"""
     # TODO: Implement this function
     raise NotImplementedError
