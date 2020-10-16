@@ -1,0 +1,31 @@
+[34mStarting the server[0m
+Server is running with pid 50929
+[34mChecking status codes[0m
+200 OK:			[32mPassed[0m
+404 Not Found:		[32mPassed[0m
+405 Method Not Allowed:	[32mPassed[0m
+501 Not Implemented:	[32mPassed[0m
+[34mChecking headers[0m
+Content size:		[32mPassed[0m
+Content type:		[32mPassed[0m
+HTTP version:		[32mPassed[0m
+[34mChecking full header[0m
+HTTP/1.1 200 OK
+Date: 2020-10-15 19:56:44.522214
+Server: Roman-CS430/2020
+Content-Type: text/plain; charset=utf-8
+Last-Modified: 2020-10-15 14:21:49.524000
+Content-Length: 148545
+
+[34mChecking file content[0m
+she would keep, through all her riper years, the simple and
+loving heart of her childhood:  and how she would gather about
+her other little children, and make THEIR eyes bright and eager
+with many a strange tale, perhaps even with the dream of
+Wonderland of long ago:  and how she would feel with all their
+simple sorrows, and find a pleasure in all their simple joys,
+remembering her own child-life, and the happy summer days.
+
+                             THE END
+
+[34mDone testing[0m
