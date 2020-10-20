@@ -41,13 +41,13 @@ def test_bytes_to_val(all_bytes, number):
     assert bytes_to_val(all_bytes) == number
 
 
-@pytest.mark.parametrize("all_bytes, bit_value", [([200, 100], 3), ([430, 430], 6)])
+@pytest.mark.parametrize("all_bytes, bit_value", [([0xc0, 0x0c], 3), ([128, 43], 2)])
 def test_get_2_bits(all_bytes, bit_value):
     """Get the first 2 bits from 2 bytes"""
     assert get_2_bits(all_bytes) == bit_value
 
 
-@pytest.mark.parametrize("all_bytes, offset", [([200, 100], 2148), ([430, 430], 12206)])
+@pytest.mark.parametrize("all_bytes, offset", [([0xc0, 0x0c], 12), ([192, 43], 43)])
 def test_get_domain_name_location(all_bytes, offset):
     """Get domain name location"""
     assert get_domain_name_location(all_bytes) == offset
