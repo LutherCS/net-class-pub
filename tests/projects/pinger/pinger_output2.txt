@@ -1,0 +1,58 @@
+
+--- Ping afrinic.net (196.216.2.6) using Python ---
+
+36 bytes from 196.216.2.6:icmp_seq=1 TTL=128time=270.07 ms
+36 bytes from 196.216.2.6:icmp_seq=2 TTL=128time=269.12 ms
+36 bytes from 196.216.2.6:icmp_seq=3 TTL=128time=272.13 ms
+36 bytes from 196.216.2.6:icmp_seq=4 TTL=128time=279.32 ms
+36 bytes from 196.216.2.6:icmp_seq=5 TTL=128time=267.80 ms
+
+--- afrinic.net ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss
+rtt min/avg/max/mdev = 267.797/271.688/279.320/4.550 ms
+
+--- Ping apnic.net (203.119.101.61) using Python ---
+
+36 bytes from 203.119.101.61:icmp_seq=1 TTL=128time=240.60 ms
+36 bytes from 203.119.101.61:icmp_seq=2 TTL=128time=236.48 ms
+36 bytes from 203.119.101.61:icmp_seq=3 TTL=128time=235.65 ms
+36 bytes from 203.119.101.61:icmp_seq=4 TTL=128time=237.49 ms
+36 bytes from 203.119.101.61:icmp_seq=5 TTL=128time=236.38 ms
+
+--- apnic.net ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss
+rtt min/avg/max/mdev = 235.648/237.319/240.603/1.950 ms
+
+--- Ping arin.net (192.136.136.47) using Python ---
+
+No response: Request timed out after 1 sec
+No response: Request timed out after 1 sec
+No response: Request timed out after 1 sec
+No response: Request timed out after 1 sec
+No response: Request timed out after 1 sec
+
+--- arin.net ping statistics ---
+5 packets transmitted, 0 received, 100% packet loss
+
+--- Ping lacnic.net (200.3.14.10) using Python ---
+
+36 bytes from 200.3.14.10:icmp_seq=1 TTL=128time=166.59 ms
+36 bytes from 200.3.14.10:icmp_seq=2 TTL=128time=167.74 ms
+36 bytes from 200.3.14.10:icmp_seq=3 TTL=128time=166.97 ms
+36 bytes from 200.3.14.10:icmp_seq=4 TTL=128time=167.15 ms
+36 bytes from 200.3.14.10:icmp_seq=5 TTL=128time=166.26 ms
+
+--- lacnic.net ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss
+rtt min/avg/max/mdev = 166.258/166.941/167.742/0.564 ms
+
+--- Ping ripe.net (193.0.6.139) using Python ---
+
+No response: Request timed out after 1 sec
+No response: Request timed out after 1 sec
+No response: Request timed out after 1 sec
+No response: Request timed out after 1 sec
+No response: Request timed out after 1 sec
+
+--- ripe.net ping statistics ---
+5 packets transmitted, 0 received, 100% packet loss
