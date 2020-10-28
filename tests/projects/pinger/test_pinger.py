@@ -50,7 +50,7 @@ def test_parse_reply_type_error():
             + b"\x01\x00\xc6`\xab\xe1\x00\x03n\xfc\x16\x960\xe6\xd7A",
             ("127.0.0.1", 0),
         )
-        sock.fileno.return_value = 430
+        sock.fileno.return_value = 0
         with pytest.raises(ValueError) as ve:
             parse_reply(sock, 44001, 1, "127.0.0.1")
         assert str(ve.value) == "Incorrect type. Expected 0, received 1"
@@ -64,7 +64,7 @@ def test_parse_reply_code_error():
             + b"\x00\x01\xc6`\xab\xe1\x00\x03n\xfc\x16\x960\xe6\xd7A",
             ("127.0.0.1", 0),
         )
-        sock.fileno.return_value = 430
+        sock.fileno.return_value = 0
         with pytest.raises(ValueError) as ve:
             parse_reply(sock, 44001, 1, "127.0.0.1")
         assert str(ve.value) == "Incorrect code. Expected 0, received 1"
@@ -78,7 +78,7 @@ def test_parse_reply_checksum_error():
             + b"\x00\x00\x16`\xab\xe1\x00\x03n\xfc\x16\x960\xe6\xd7A",
             ("127.0.0.1", 0),
         )
-        sock.fileno.return_value = 430
+        sock.fileno.return_value = 0
         with pytest.raises(ValueError) as ve:
             parse_reply(sock, 44001, 1, "127.0.0.1")
         assert str(ve.value) == "Incorrect checksum. Expected 50784, received 5728"
@@ -92,7 +92,7 @@ def test_parse_reply_id_error():
             + b"\x00\x00\xc6`\xab\xe1\x00\x03n\xfc\x16\x960\xe6\xd7A",
             ("127.0.0.1", 0),
         )
-        sock.fileno.return_value = 430
+        sock.fileno.return_value = 0
         with pytest.raises(ValueError) as ve:
             parse_reply(sock, 43000, 1, "127.0.0.1")
         assert str(ve.value) == "Incorrect id. Expected 43000, received 44001"
@@ -106,7 +106,7 @@ def test_parse_reply_sender_error():
             + b"\x00\x00\xc6`\xab\xe1\x00\x03n\xfc\x16\x960\xe6\xd7A",
             ("127.0.0.2", 0),
         )
-        sock.fileno.return_value = 430
+        sock.fileno.return_value = 0
         with pytest.raises(ValueError) as ve:
             parse_reply(sock, 44001, 1, "127.0.0.1")
         assert (
@@ -121,7 +121,8 @@ def test_parse_reply_sender_error():
         (
             (
                 b'E\x00\x00$\xea5\x00\x00\x80\x01\xbb\x9d]\xb8\xd8"\xc0\xa8\x9e\x82'
-                + b"\x00\x00\xc6`\xab\xe1\x00\x03n\xfc\x16\x960\xe6\xd7A",
+                + b"\x00\x00\x99\x8d\xab\xe1\x00\x03"
+                + b"A\xd7\xe60\x96\x16\xfcn",
                 ("127.0.0.1", 0),
             ),
             44001,
@@ -136,7 +137,8 @@ def test_parse_reply_sender_error():
         (
             (
                 b'E\x00\x00$\xf8K\x00\x00\x80\x01\xad\x87]\xb8\xd8"\xc0\xa8\x9e\x82'
-                + b"\x00\x00C\x93\xb6:\x00\x03\xf8N\x01\xb84\xe6\xd7A",
+                + b"\x00\x00\x1a\xbc\xb6:\x00\x03"
+                + b"A\xd7\xe64\xb8\x01N\xf8",
                 ("93.184.216.34", 0),
             ),
             46650,
@@ -151,7 +153,8 @@ def test_parse_reply_sender_error():
         (
             (
                 b"E\x00\x00$\xfa(\x00\x00\x80\x01\x1a\xa7\xc4\xd8\x02\x06\xc0\xa8\x9e\x82"
-                + b"\x00\x00\xe6\xa8\xb7G\x00\x01\xe7\xbdm(5\xe6\xd7A",
+                + b"\x00\x00:U\xb7G\x00\x01"
+                + b"A\xd7\xe65(m\xbd\xe7",
                 ("196.216.2.6", 0),
             ),
             46919,
