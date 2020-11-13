@@ -33,11 +33,11 @@ Neighbor_2_IP_address Cost_of_getting_to_neighbor_2
 Neighbor_3_IP_address Cost_of_getting_to_neighbor_3
 ```
 
-File *network_1_config.txt* represents the following network:
+File *data/projects/routing/network_1_config.txt* represents the following network:
 
 ![Simple network](network_1_layout.png)
 
-Content of *network_1_config.txt*
+Content of *data/projects/routing/network_1_config.txt*
 
 ```text
 127.0.0.1
@@ -250,15 +250,27 @@ See the source code template file for function signatures.
 * If *this* router is the destination, return (and print) the message, else forward it further
 * Look up the destination address in the routing table and return the next hop address.
 
-## Running the simulation
-
-Start each router as follows:
+## Testing the implementation
 
 ```bash
-python udp_router.py -c data/projects/routing/network_1_config.txt 127.0.0.1
-python udp_router.py -c data/projects/routing/network_1_config.txt 127.0.0.2
-python udp_router.py -c data/projects/routing/network_1_config.txt 127.0.0.3
-python udp_router.py -c data/projects/routing/network_1_config.txt 127.0.0.4
+python -m pytest tests/projects/routing/test_router.py
+```
+
+## Running the simulation
+
+Start each router as follows (preferably, in separate windows):
+
+```bash
+python src/projects/routing/udp_router.py -c data/projects/routing/network_1_config.txt 127.0.0.1
+python src/projects/routing/udp_router.py -c data/projects/routing/network_1_config.txt 127.0.0.2
+python src/projects/routing/udp_router.py -c data/projects/routing/network_1_config.txt 127.0.0.3
+python src/projects/routing/udp_router.py -c data/projects/routing/network_1_config.txt 127.0.0.4
+```
+
+Alternatively, start all of them at once:
+
+```bash
+./tests/projects/routing/run_simulation.sh
 ```
 
 ![Simulation](routing.apng)
