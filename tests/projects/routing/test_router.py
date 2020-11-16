@@ -23,7 +23,7 @@ def test_read_config_file():
     assert d == ROUTING_TABLE
 
 
-def test_read_config_file():
+def test_read_config_file_error():
     """Read config file"""
     with pytest.raises(FileNotFoundError) as fnfe:
         read_config_file("data/projects/routing/wrong_file.txt")
