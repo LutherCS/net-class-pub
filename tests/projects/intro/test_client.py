@@ -1,5 +1,23 @@
+#!/usr/bin/env python3
+"""
+`intro client` testing
+
+@authors: Roman Yasinovskyy
+@version: 2022.9
+"""
+
+import importlib
+import pathlib
+import sys
+
 import pytest
-from src.projects.intro.client import format, parse
+
+try:
+    importlib.util.find_spec(".".join(pathlib.Path(__file__).parts[-3:-1]), "src")
+except ModuleNotFoundError:
+    sys.path.append(f"{pathlib.Path(__file__).parents[3]}/")
+finally:
+    from src.projects.intro.client import format_message, parse_data
 
 
 @pytest.mark.parametrize(
@@ -18,7 +36,8 @@ from src.projects.intro.client import format, parse
     ],
 )
 def test_client_format(message, data):
-    assert format(message) == data
+    """Testing the output"""
+    assert format_message(message) == data
 
 
 @pytest.mark.parametrize(
@@ -37,8 +56,9 @@ def test_client_format(message, data):
     ],
 )
 def test_client_parse(data, message):
-    assert parse(data) == message
+    """Testing the output"""
+    assert parse_data(data) == message
 
 
 if __name__ == "__main__":
-    pytest.main()
+    pytest.main(["-v", __file__])

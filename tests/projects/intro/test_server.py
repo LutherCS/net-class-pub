@@ -1,6 +1,23 @@
-import pytest
-from src.projects.intro.server import format, parse
+#!/usr/bin/env python3
+"""
+`intro server` testing
 
+@authors: Roman Yasinovskyy
+@version: 2022.9
+"""
+
+import importlib
+import pathlib
+import sys
+
+import pytest
+
+try:
+    importlib.util.find_spec(".".join(pathlib.Path(__file__).parts[-3:-1]), "src")
+except ModuleNotFoundError:
+    sys.path.append(f"{pathlib.Path(__file__).parents[3]}/")
+finally:
+    from src.projects.intro.server import format_message, parse_data
 
 @pytest.mark.parametrize(
     "message, data",
@@ -18,7 +35,7 @@ from src.projects.intro.server import format, parse
     ],
 )
 def test_server_format(message, data):
-    assert format(message) == data
+    assert format_message(message) == data
 
 
 @pytest.mark.parametrize(
@@ -37,8 +54,8 @@ def test_server_format(message, data):
     ],
 )
 def test_server_parse(data, message):
-    assert parse(data) == message
+    assert parse_data(data) == message
 
 
 if __name__ == "__main__":
-    pytest.main()
+    pytest.main(["-v", __file__])
