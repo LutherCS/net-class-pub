@@ -1,9 +1,24 @@
 #!/usr/bin/env python3
-"""Testing geo client"""
+"""
+`geo client` testing
+
+@authors: Roman Yasinovskyy
+@version: 2022.9
+"""
+
+import importlib
+import pathlib
+import sys
+from io import StringIO
 
 import pytest
-from io import StringIO
-from src.projects.project1.client import format, parse, read_user_input
+
+try:
+    importlib.util.find_spec(".".join(pathlib.Path(__file__).parts[-3:-1]), "src")
+except ModuleNotFoundError:
+    sys.path.append(f"{pathlib.Path(__file__).parents[3]}/")
+finally:
+    from src.projects.geo.client import format_message, parse_data, read_user_input
 
 
 @pytest.mark.parametrize(
@@ -13,8 +28,9 @@ from src.projects.project1.client import format, parse, read_user_input
         ("Côte D'Ivoire", b"C\xc3\xb4te D'Ivoire"),
     ],
 )
-def test_client_format(message, data):
-    assert format(message) == data
+def test_format_message(message, data):
+    """ "Test formatting the message"""
+    assert format_message(message) == data
 
 
 @pytest.mark.parametrize(
@@ -24,8 +40,9 @@ def test_client_format(message, data):
         (b"Colombo, Sri Jayawardenepura Kotte", "Colombo, Sri Jayawardenepura Kotte"),
     ],
 )
-def test_client_parse(data, message):
-    assert parse(data) == message
+def test_parse_data(data, message):
+    """Test parsing the data"""
+    assert parse_data(data) == message
 
 
 @pytest.mark.parametrize(
@@ -36,10 +53,11 @@ def test_client_parse(data, message):
     ],
 )
 def test_read_user_input(user_input, expected, monkeypatch):
+    """Test reading user input"""
     user_input = StringIO(f"{user_input}\n")
     monkeypatch.setattr("sys.stdin", user_input)
     assert read_user_input() == expected
 
 
 if __name__ == "__main__":
-    pytest.main()
+    pytest.main(["-v", __file__])

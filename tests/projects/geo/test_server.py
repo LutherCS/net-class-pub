@@ -1,13 +1,34 @@
 #!/usr/bin/env python3
-"""Testing geo server"""
+"""
+`geo server` testing
+
+@authors: Roman Yasinovskyy
+@version: 2022.9
+"""
+
+import importlib
+import pathlib
+import sys
 
 import pytest
-from src.projects.project1.server import format, parse, read_file, find_capital
+
+try:
+    importlib.util.find_spec(".".join(pathlib.Path(__file__).parts[-3:-1]), "src")
+except ModuleNotFoundError:
+    sys.path.append(f"{pathlib.Path(__file__).parents[3]}/")
+finally:
+    from src.projects.geo.server import (
+        format_message,
+        parse_data,
+        read_file,
+        find_capital,
+    )
 
 
-@pytest.fixture
-def small_world():
-    world, count = read_file("tests/projects/project1/small_world.csv")
+@pytest.fixture(name="small_world")
+def fixture_small_world():
+    """Test reading the file"""
+    world, count = read_file("tests/projects/geo/small_world.csv")
     return world, count
 
 
@@ -18,8 +39,9 @@ def small_world():
         ("Colombo, Sri Jayawardenepura Kotte", b"Colombo, Sri Jayawardenepura Kotte"),
     ],
 )
-def test_server_format(message, data):
-    assert format(message) == data
+def test_format_message(message, data):
+    """Test formatting the message"""
+    assert format_message(message) == data
 
 
 @pytest.mark.parametrize(
@@ -29,15 +51,16 @@ def test_server_format(message, data):
         (b"C\xc3\xb4te D'Ivoire", "Côte D'Ivoire"),
     ],
 )
-def test_server_parse(data, message):
-    assert parse(data) == message
+def test_parse_data(data, message):
+    """Test parsing the data"""
+    assert parse_data(data) == message
 
 
 @pytest.mark.parametrize(
     "input_file, countries",
     [
-        ("tests/projects/project1/small_world.csv", 4),
-        ("src/projects/project1/world.csv", 196),
+        ("tests/projects/geo/small_world.csv", 4),
+        ("data/projects/geo/world.csv", 196),
     ],
 )
 def test_read_file(input_file, countries):
@@ -48,8 +71,8 @@ def test_read_file(input_file, countries):
 @pytest.mark.parametrize(
     "input_file, countries_with_alternative_names",
     [
-        ("tests/projects/project1/small_world.csv", 6),
-        ("src/projects/project1/world.csv", 201),
+        ("tests/projects/geo/small_world.csv", 6),
+        ("data/projects/geo/world.csv", 201),
     ],
 )
 def test_read_file_2(input_file, countries_with_alternative_names):
@@ -81,4 +104,4 @@ def test_find_capital(country, capital, small_world):
 
 
 if __name__ == "__main__":
-    pytest.main()
+    pytest.main(["-v", __file__])

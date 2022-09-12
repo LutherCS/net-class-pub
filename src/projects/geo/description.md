@@ -24,27 +24,27 @@ For this project you need to implement functions `read_file`, `find_capital`, `f
 
 ## Testing the implementation
 
-    python3 -m pytest tests/projects/project1/
+    python3 -m pytest tests/projects/geo/
 
 If you want to enable verbose output, use flag `-v`
 
-    python3 -m pytest -v tests/projects/project1/
+    python3 -m pytest -v tests/projects/geo/
 
 ## Running the server
 
-    python3 src/projects/project1/server.py --file world.csv
+    python3 src/projects/geo/server.py data/projects/geo/world.csv
 
 If you want to enable debugging/informational messages, use flag `--debug`
 
-    python3 src/projects/project1/server.py --file worlds.csv --debug
+    python3 src/projects/geo/server.py data/projects/geo/worlds.csv --debug
 
 ## Running the client
 
-    python3 src/projects/project1/client.py
+    python3 src/projects/geo/client.py
 
 If you want to enable debugging/informational messages, use flag `--debug`
 
-    python3 src/projects/project1/client.py --debug
+    python3 src/projects/geo/client.py --debug
 
 ## Capturing the exchange
 
