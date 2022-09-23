@@ -2,12 +2,13 @@
 
 For this project you are going to write a simple web server using Python sockets only (i.e. no Flask, not even http.server). Your server should have the following functionality:
 
-1. Bind to TCP port **4300** on **127.0.0.2** and accept 1 request at a time
+1. Bind to TCP port **43080** on **127.0.0.2** and accept 1 request at a time
 2. Log details of each incoming request to *webserver.log*
-3. Return *404 Not Found* error for any request other than */alice30.txt*
-4. Return *405 Method Not Allowed* error for any method other than *GET*
-5. Return *501 Not Implemented* error for any method other than *GET* or *POST*
-6. Send the content of *alice30.txt* to the client along with proper response header
+3. Return *200 OK* status message as a response to a valid request (/alice.txt).
+4. Return *404 Not Found* error for any *GET* request if the file is not in *data/projects/webserver/*
+5. Return *405 Method Not Allowed* error for any method other than *GET*
+6. Return *501 Not Implemented* error for any method other than *GET* or *POST*
+7. Send the content of the requested file to the client along with proper response header
 
 ## Request
 
@@ -15,7 +16,7 @@ A typical request header sent by a browser (Chrome in this case) looks as follow
 
 ```text
 GET /alice30.txt HTTP/1.1
-Host: 127.0.0.2:4300
+Host: 127.0.0.2:43080
 Connection: keep-alive
 Pragma: no-cache
 Cache-Control: no-cache
@@ -53,7 +54,7 @@ Your server must include the following headers in the response:
 3. `Content-Length`: length of *alice30.txt*.
 4. `Content-Type`: plain text (**not** html).
 5. `Date`: current date
-6. `Last-Modified`: Friday, August 29, 2018 11:00 AM
+6. `Last-Modified`: Get this information from the file
 7. `Server`: must include your name
 
 The response header sent by your server should look as follows:
@@ -64,8 +65,14 @@ Content-Length: 148545
 Content-Type: text/plain; charset=utf-8
 Date: Sun Oct  4 23:25:40 2020
 Last-Modified: Wed Aug 29 11:00:00 2018
-Server: CS430-ROMAN
+Server: Roman-CS430/2022
 
+```
+
+## Testing
+
+```bash
+tests/projects/webserver/test_webserver.sh
 ```
 
 ## References

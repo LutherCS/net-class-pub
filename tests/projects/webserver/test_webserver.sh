@@ -1,7 +1,7 @@
 #!/bin/bash
 
 addr="127.0.0.2"
-port=4300
+port=43080
 file="alice30.txt"
 
 echo -e "\e[34mStarting the server\e[0m"
