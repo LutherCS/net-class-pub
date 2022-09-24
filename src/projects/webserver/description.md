@@ -2,7 +2,7 @@
 
 For this project you are going to write a simple web server using Python sockets only (i.e. no Flask, not even http.server). Your server should have the following functionality:
 
-1. Bind to TCP port **43080** on **127.0.0.2** and accept 1 request at a time
+1. Bind to TCP port *43080* on *127.0.0.2* and accept 1 request at a time
 2. Log details of each incoming request to *webserver.log*
 3. Return *200 OK* status message as a response to a valid request (/alice.txt).
 4. Return *404 Not Found* error for any *GET* request if the file is not in *data/projects/webserver/*
@@ -55,7 +55,7 @@ Your server must include the following headers in the response:
 4. `Content-Type`: plain text (**not** html).
 5. `Date`: current date
 6. `Last-Modified`: Get this information from the file
-7. `Server`: must include your name
+7. `Server`: CS430/2022
 
 The response header sent by your server should look as follows:
 
@@ -65,11 +65,23 @@ Content-Length: 148545
 Content-Type: text/plain; charset=utf-8
 Date: Sun Oct  4 23:25:40 2020
 Last-Modified: Wed Aug 29 11:00:00 2018
-Server: Roman-CS430/2022
+Server: CS430/2022
 
 ```
 
+In case of the client-side errors (*404 Not Found* and *405 Method Not Allowed*) the server should return HTML code in the following format:
+
+```html
+<html><head></head><body><h1>ERROR MESSAGE</h1></body></html>
+```
+
+See the test file for details of the message.
+
 ## Testing
+
+```bash
+python -m pytest tests/projects/webserver/test_server.py
+```
 
 ```bash
 tests/projects/webserver/test_webserver.sh

@@ -14,7 +14,7 @@ SRVR_PORT = 43080  # Open http://127.0.0.2:43080 in a browser
 SRVR_NAME = ""
 
 
-def parse_data(data: bytes) -> dict:
+def parse_request(data: bytes) -> dict:
     """Parse the incoming request"""
     ...
 
