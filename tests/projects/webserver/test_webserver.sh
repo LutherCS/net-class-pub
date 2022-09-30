@@ -5,7 +5,7 @@ port=43080
 file="alice30.txt"
 
 echo -e "\e[34mStarting the server\e[0m"
-python src/projects/project2/webserver.py &
+python src/projects/webserver/server.py src/projects/webserver/webserver.log &
 pid=`echo $!`
 echo -e "Server is running with pid $pid"
 sleep 1
