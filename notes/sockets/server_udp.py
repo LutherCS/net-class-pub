@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+"""UDP socket server"""
 import socket
 from socket import SOCK_DGRAM, AF_INET
 from time import sleep
