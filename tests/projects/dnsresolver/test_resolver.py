@@ -1,22 +1,34 @@
 #!/usr/bin/env python3
 """
-Testing the DNS resolver
+`dnsresolver` testing
+
+@authors: Roman Yasinovskyy
+@version: 2022.10
 """
 
 
+import importlib
+import pathlib
+import sys
+
 import pytest
-from src.projects.dnsresolver.resolver import val_to_2_bytes
-from src.projects.dnsresolver.resolver import val_to_n_bytes
-from src.projects.dnsresolver.resolver import bytes_to_val
-from src.projects.dnsresolver.resolver import get_2_bits
-from src.projects.dnsresolver.resolver import get_domain_name_location
-from src.projects.dnsresolver.resolver import parse_cli_query
-from src.projects.dnsresolver.resolver import format_query
-from src.projects.dnsresolver.resolver import parse_response
-from src.projects.dnsresolver.resolver import parse_answers
-from src.projects.dnsresolver.resolver import parse_address_a
-from src.projects.dnsresolver.resolver import parse_address_aaaa
-from src.projects.dnsresolver.resolver import PUBLIC_DNS_SERVER
+
+try:
+    importlib.util.find_spec(".".join(pathlib.Path(__file__).parts[-3:-1]), "src")
+except ModuleNotFoundError:
+    sys.path.append(f"{pathlib.Path(__file__).parents[3]}/")
+finally:
+    from src.projects.dnsresolver.resolver import (PUBLIC_DNS_SERVER,
+                                                   bytes_to_val, format_query,
+                                                   get_2_bits,
+                                                   get_domain_name_location,
+                                                   parse_address_a,
+                                                   parse_address_aaaa,
+                                                   parse_answers,
+                                                   parse_cli_query,
+                                                   parse_response,
+                                                   val_to_2_bytes,
+                                                   val_to_n_bytes)
 
 
 @pytest.mark.parametrize("number, all_bytes", [(430, (1, 174)), (43043, (168, 35))])
@@ -41,13 +53,13 @@ def test_bytes_to_val(all_bytes, number):
     assert bytes_to_val(all_bytes) == number
 
 
-@pytest.mark.parametrize("all_bytes, bit_value", [([0xc0, 0x0c], 3), ([128, 43], 2)])
+@pytest.mark.parametrize("all_bytes, bit_value", [([0xC0, 0x0C], 3), ([128, 43], 2)])
 def test_get_2_bits(all_bytes, bit_value):
     """Get the first 2 bits from 2 bytes"""
     assert get_2_bits(all_bytes) == bit_value
 
 
-@pytest.mark.parametrize("all_bytes, offset", [([0xc0, 0x0c], 12), ([192, 43], 43)])
+@pytest.mark.parametrize("all_bytes, offset", [([0xC0, 0x0C], 12), ([192, 43], 43)])
 def test_get_domain_name_location(all_bytes, offset):
     """Get domain name location"""
     assert get_domain_name_location(all_bytes) == offset
@@ -260,7 +272,7 @@ def test_parse_address_a(addr_length, addr_bytes, addr_human):
     [
         (
             16,
-            b" \x01I\x98\x00\x0c\x10#\x00\x00\x00\x00\x00\x00\x00\x04\xc0",
+            b" \x01I\x98\x00\x0c\x10#\x00\x00\x00\x00\x00\x00\x00\x04",
             "2001:4998:c:1023:0:0:0:4",
         ),
         (
@@ -276,4 +288,4 @@ def test_parse_address_aaaa(addr_length, addr_bytes, addr_human):
 
 
 if __name__ == "__main__":
-    pytest.main(["test_resolver.py"])
+    pytest.main(["-v", __file__])

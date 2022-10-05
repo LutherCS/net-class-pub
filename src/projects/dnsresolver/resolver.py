@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """
-DNS Resolver
+`dnsresolver` implementation
+
+@authors:
+@version: 2022.10
 """
 
 import argparse
 import logging
-from random import randint, choice
-from socket import socket, SOCK_DGRAM, AF_INET
-from typing import Tuple, List
+from random import choice, randint
+from socket import AF_INET, SOCK_DGRAM, socket
 
 PORT = 53
 
@@ -27,28 +29,28 @@ PUBLIC_DNS_SERVER = [
 ]
 
 
-def val_to_2_bytes(value: int) -> Tuple[int]:
+def val_to_2_bytes(value: int) -> tuple[int]:
     """
     Split a value into 2 bytes
     Return the result as a tuple of 2 integers
     """
     # TODO: Implement this function
-    raise NotImplementedError
+    ...
 
 
-def val_to_n_bytes(value: int, n_bytes: int) -> Tuple[int]:
+def val_to_n_bytes(value: int, n_bytes: int) -> tuple[int]:
     """
     Split a value into n bytes
     Return the result as a tuple of n integers
     """
     # TODO: Implement this function
-    raise NotImplementedError
+    ...
 
 
 def bytes_to_val(byte_list: list) -> int:
     """Merge n bytes into a value"""
     # TODO: Implement this function
-    raise NotImplementedError
+    ...
 
 
 def get_2_bits(byte_list: list) -> int:
@@ -57,7 +59,7 @@ def get_2_bits(byte_list: list) -> int:
     Return the result as a decimal value
     """
     # TODO: Implement this function
-    raise NotImplementedError
+    ...
 
 
 def get_domain_name_location(byte_list: list) -> int:
@@ -66,12 +68,12 @@ def get_domain_name_location(byte_list: list) -> int:
     Return the result as a decimal value
     """
     # TODO: Implement this function
-    raise NotImplementedError
+    ...
 
 
 def parse_cli_query(
     q_domain: str, q_type: str, q_server: str = None
-) -> Tuple[list, int, str]:
+) -> tuple[list, int, str]:
     """
     Parse command-line query
     Return a tuple of the domain (as a list of subdomains), numeric type, and the server
@@ -79,7 +81,7 @@ def parse_cli_query(
     If type is not `A` or `AAAA`, raise `ValueError`
     """
     # TODO: Implement this function
-    raise NotImplementedError
+    ...
 
 
 def format_query(q_domain: list, q_type: int) -> bytearray:
@@ -94,7 +96,7 @@ def format_query(q_domain: list, q_type: int) -> bytearray:
     - class: Internet
     """
     # TODO: Implement this function
-    raise NotImplementedError
+    ...
 
 
 def parse_response(resp_bytes: bytes) -> list:
@@ -104,17 +106,17 @@ def parse_response(resp_bytes: bytes) -> list:
     Return a list of tuples in the format of (name, address, ttl)
     """
     # TODO: Implement this function
-    raise NotImplementedError
+    ...
 
 
-def parse_answers(resp_bytes: bytes, answer_start: int, rr_ans: int) -> List[tuple]:
+def parse_answers(resp_bytes: bytes, answer_start: int, rr_ans: int) -> list[tuple]:
     """
     Parse DNS server answers
     Take response bytes, offset, and the number of answers as parameters
     Return a list of tuples in the format of (name, address, ttl)
     """
     # TODO: Implement this function
-    raise NotImplementedError
+    ...
 
 
 def parse_address_a(addr_len: int, addr_bytes: bytes) -> str:
@@ -123,13 +125,13 @@ def parse_address_a(addr_len: int, addr_bytes: bytes) -> str:
     Convert bytes to human-readable dotted-decimal
     """
     # TODO: Implement this function
-    raise NotImplementedError
+    ...
 
 
 def parse_address_aaaa(addr_len: int, addr_bytes: bytes) -> str:
     """Extract IPv6 address"""
     # TODO: Implement this function
-    raise NotImplementedError
+    ...
 
 
 def resolve(query: tuple) -> None:
@@ -155,8 +157,12 @@ def resolve(query: tuple) -> None:
 
 def main():
     """Main function"""
-    # TODO: Complete this function
+    ...
     arg_parser = argparse.ArgumentParser(description="Parse arguments")
+    # TODO: Complete this function to accept domain name, record type, and the server address as command-line parameters
+    arg_parser.add_argument(
+        "-d", "--debug", action="store_true", help="Enable logging.DEBUG mode"
+    )
     args = arg_parser.parse_args()
 
     logger = logging.getLogger("root")
@@ -167,7 +173,6 @@ def main():
     logging.basicConfig(format="%(levelname)s: %(message)s", level=logger.level)
 
     resolve((args.domain, args.type, args.server))
-    raise NotImplementedError
 
 
 if __name__ == "__main__":
