@@ -10,7 +10,7 @@ Display relevant statistics of the probe, similar to the `tracert` utility on Wi
 
 Python implementation is provided, with lines of code sorted in ascending order for the convenience of search.
 
-This project is supposed to work (and will be graded) on *Ubuntu 18.04* and may not work on other platforms. It definitely **DOES NOT** work on Mac (see BUGS section of the FreeBSD man pages).
+This project is supposed to work (and will be graded) on *Ubuntu 20.04* and may not work on other platforms. It definitely **DOES NOT** work on Mac (see BUGS section of the FreeBSD man pages).
 
 ## C++
 
@@ -29,7 +29,7 @@ java Traceroute example.com
 ## Python
 
 ```bash
-sudo python3.8 src/projects/tracepath/traceroute.py example.com
+sudo python3 src/projects/traceroute/traceroute.py example.com
 ```
 
 ### Functions
@@ -58,11 +58,10 @@ sudo python3.8 src/projects/tracepath/traceroute.py example.com
 ## References
 
 * [Traceroute - Wikipedia](https://en.wikipedia.org/wiki/Traceroute)
-* [traceroute(8) - Linux man page](https://linux.die.net/man/8/traceroute)
-* [Ping, traceroute, and netstat: The network troubleshooting trifecta | Enable Sysadmin](https://www.redhat.com/sysadmin/ping-traceroute-netstat)
+* [mtr(8): network diagnostic tool - Linux man page](https://linux.die.net/man/8/mtr)
 * [Internet Control Message Protocol (ICMP) Parameters](https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml)
 * [Linux Howtos: C/C++ -> Sockets Tutorial](http://www.linuxhowtos.org/C_C++/socket.htm)
-* [Socket (Java SE 10 & JDK 10 )](https://docs.oracle.com/javase/10/docs/api/java/net/Socket.html)
-* [socket — Low-level networking interface — Python 3.7.1 documentation](https://docs.python.org/3/library/socket.html)
+* [Socket (Java SE 19 & JDK 19)](https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/net/Socket.html)
+* [socket — Low-level networking interface — Python 3.11.0 documentation](https://docs.python.org/3/library/socket.html)
 * [macos - Mac changes IP total length field - Stack Overflow](https://stackoverflow.com/questions/13829712/mac-changes-ip-total-length-field)
 * [ip(4) [freebsd man page]](https://www.unix.com/man-page/FreeBSD/4/ip/)

@@ -31,6 +31,9 @@
 
 
 
+
+
+
                             f"{socket.gethostbyaddr(resp_addr[0])[0]} [{resp_addr[0]}]"
                         )
                         comment
@@ -46,7 +49,7 @@
                     continue
                     continue
                     destination_reached = True
-                    except:
+                    except socket.herror:
                     parse_reply(pkt_in)
                     pkt_in, resp_addr, time_rcvd = receive_reply(sock)
                     print(f"{'!':>3s}      ", end="")
@@ -73,6 +76,9 @@
             for _ in range(ATTEMPTS):
             print(comment)
             print(f"{ttl:>3d}   ", end="")
+            result.append("  ")
+            result.append(" ")
+            result.append("\n")
             seq_id = 0
             ttl += 1
         "-d", "--debug", action="store_true", help="Enable logging.DEBUG mode"
@@ -84,12 +90,16 @@
         + f"over a maximum of {max_hops} hops\n"
         0,
         checksum(header + data),
+        chksum = ((chksum + word) & 0xFFFF) + ((chksum + word) >> 16)
         destination_reached = False
         ECHO_REQUEST_CODE,
         ECHO_REQUEST_CODE,
         ECHO_REQUEST_TYPE,
         ECHO_REQUEST_TYPE,
+        elif (i + 1) % 8 == 0:
+        else:
         f"\nTracing route to {hostname} [{dest_addr}]\n"
+        if (i + 1) % 16 == 0:
         logger.setLevel(logging.DEBUG)
         logger.setLevel(logging.WARNING)
         pkt_bytes += b"\00"
@@ -98,17 +108,18 @@
         raise ValueError(f"Incorrect code {repl_code} received with type {repl_type}")
         req_id,
         req_id,
-        s = ((s + w) & 0xFFFF) + ((s + w) >> 16)
+        result.append(f"{val:02x}")
         seq_num,
         seq_num,
         sock.settimeout(1)
         socket.AF_INET, socket.SOCK_RAW, socket.getprotobyname("icmp")
         ttl = 0
-        w = (pkt_bytes[i] << 8) + pkt_bytes[i + 1]
         while ttl < max_hops and not destination_reached:
+        word = (pkt_bytes[i] << 8) + pkt_bytes[i + 1]
     :param addr_dst: destination address
     :param hostname: host name
     :param max_hops: max hops
+    :param pkt_bytes: data received from the wire
     :param pkt_bytes: data received from the wire
     :param pkt_bytes: packet bytes
     :param pkt_bytes: packet bytes to send
@@ -121,6 +132,9 @@
     :returns checksum as an integer
     :returns current time
     :returns properly formatted Echo request
+    :returns string with hexadecimal values of raw bytes
+    """
+    """
     """
     """
     """
@@ -142,15 +156,18 @@
     ) as sock:
     arg_parser = argparse.ArgumentParser(description="Parse arguments")
     arg_parser.add_argument(
-    arg_parser.add_argument("server", type=str, help="Server to ping")
+    arg_parser.add_argument("host", type=str, help="Server to trace")
     args = arg_parser.parse_args()
     Calculate checksum
+    chksum = 0
+    Convert packet bytes to a printable string
     data = b"VOTE!"
     data = pkt_bytes[28:]
     dest_addr = socket.gethostbyname(hostname)
     else:
     expected_types_and_codes = {0: [0], 3: [0, 1, 3], 8: [0], 11: [0]}
     for i in range(0, len(pkt_bytes), 2):
+    for i, val in enumerate(pkt_bytes):
     Format an Echo request
     header = pkt_bytes[20:28]
     header = struct.pack(
@@ -170,20 +187,27 @@
     Receive an ICMP reply
     repl_type, repl_code, repl_checksum, repl_id, sequence = struct.unpack(
     req_id = os.getpid() & 0xFFFF
-    return ~s & 0xFFFF
+    result = []
+    result.append("\n")
+    result.append("\n")
+    return "".join(result)
+    return ~chksum & 0xFFFF
     return header + data
     return pkt_bytes, addr, time.time()
     return time.time()
-    s = 0
     Send an Echo Request
     sock.sendto(pkt_bytes, (addr_dst, 33434))
     sock.setsockopt(socket.IPPROTO_IP, socket.IP_TTL, struct.pack("I", ttl))
     Trace the route to a domain
     traceroute(args.server)
     with socket.socket(
-"""Python tracert implementation using ICMP"""
+"""
+"""
+@author:
+@version: 2022.10
 #!/usr/bin/env python3
 ATTEMPTS = 3
+def bytes_to_str(pkt_bytes: bytes) -> str:
 def checksum(pkt_bytes: bytes) -> int:
 def format_request(req_id: int, seq_num: int) -> bytes:
 def main():
@@ -200,3 +224,4 @@ import os
 import socket
 import struct
 import time
+Python traceroute implementation using ICMP

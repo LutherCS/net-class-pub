@@ -1,19 +1,45 @@
 #!/usr/bin/env python3
-"""Testing the traceroute"""
+"""
+Testing the traceroute
 
+@author: Roman Yasinovskyy
+@version: 2022.10
+"""
+
+
+import importlib
+import pathlib
+import sys
 
 import mock
 import pytest
 from freezegun import freeze_time
-from src.projects.traceroute.traceroute import *
+
+try:
+    importlib.util.find_spec(".".join(pathlib.Path(__file__).parts[-3:-1]), "src")
+except ModuleNotFoundError:
+    sys.path.append(f"{pathlib.Path(__file__).parents[3]}/")
+finally:
+    from src.projects.traceroute.traceroute import (
+        checksum,
+        format_request,
+        send_request,
+        receive_reply,
+        parse_reply,
+    )
 
 
 def test_checksum():
     """Calculate checksum"""
     assert checksum(b"\x08\x00,i\x00\x01\x00\x01VOTE!") == 0
-    assert checksum(b'\x0b\x00\xf4\xff\x00\x00\x00\x00'
-                    + b'E\x00\x00!\xda%\x00\x00\x01\x01\xe7\xc3\xc0\xa8\x01p]\xb8\xd8"'
-                    + b'\x08\x00\xd6\xa5U\xc4\x00\x01VOTE!') == 0
+    assert (
+        checksum(
+            b"\x0b\x00\xf4\xff\x00\x00\x00\x00"
+            + b'E\x00\x00!\xda%\x00\x00\x01\x01\xe7\xc3\xc0\xa8\x01p]\xb8\xd8"'
+            + b"\x08\x00\xd6\xa5U\xc4\x00\x01VOTE!"
+        )
+        == 0
+    )
 
 
 def test_format_request():
@@ -21,17 +47,17 @@ def test_format_request():
     assert format_request(1, 1) == b"\x08\x00,i\x00\x01\x00\x01VOTE!"
 
 
-@freeze_time("2020-10-31")
+@freeze_time("2022-10-30")
 def test_send_request():
     """Send request"""
     with mock.patch("socket.socket") as sock:
         assert (
             send_request(sock, b"\x08\x00,i\x00\x01\x00\x01VOTE!", "127.0.0.1", 128)
-            == 1604102400.0
+            == 1667088000.0
         )
 
 
-@freeze_time("2020-10-31")
+@freeze_time("2022-10-30")
 def test_receive_reply():
     """Receive reply"""
     with mock.patch("socket.socket") as sock:
@@ -42,7 +68,7 @@ def test_receive_reply():
         assert receive_reply(sock) == (
             b"\x08\x00,i\x00\x01\x00\x01VOTE!",
             ("127.0.0.1", 0),
-            1604102400.0,
+            1667088000.0,
         )
 
 
@@ -68,4 +94,4 @@ def test_parse_reply_checksum_error():
 
 
 if __name__ == "__main__":
-    pytest.main(["test_traceroute.py"])
+    pytest.main(["-v", __file__])
