@@ -156,7 +156,7 @@
     ) as sock:
     arg_parser = argparse.ArgumentParser(description="Parse arguments")
     arg_parser.add_argument(
-    arg_parser.add_argument("host", type=str, help="Server to trace")
+    arg_parser.add_argument("host", type=str, help="Host to trace")
     args = arg_parser.parse_args()
     Calculate checksum
     chksum = 0
@@ -199,7 +199,7 @@
     sock.sendto(pkt_bytes, (addr_dst, 33434))
     sock.setsockopt(socket.IPPROTO_IP, socket.IP_TTL, struct.pack("I", ttl))
     Trace the route to a domain
-    traceroute(args.server)
+    traceroute(args.host)
     with socket.socket(
 """
 """
