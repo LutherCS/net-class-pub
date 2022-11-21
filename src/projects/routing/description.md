@@ -2,7 +2,7 @@
 
 ## Task
 
-In this project you will be writing a set of procedures to implement a distributed asynchronous distance-vector routing protocol. Eventually we may try to make all the routers work together in the lab environment. In order to achieve general compatibility, it's mandatory that you use **Ubuntu 18.04** as a platform and **Python 3.8** as the implementation language.
+In this project you will be writing a set of procedures to implement a distributed asynchronous distance-vector routing protocol. Eventually we may try to make all the routers work together in the lab environment. In order to achieve general compatibility, it's mandatory that you use **Ubuntu 20.04** as a platform and **Python 3.10** as the implementation language.
 
 I recommend you implement your router application in stages, from a basic socket application to a full-fledged router.
 
@@ -287,28 +287,28 @@ wireshark -X lua_script:trivial_routing_protocol.lua routing_capture.pcapng &
 
 | Functionality (* signifies a unit test is available) | Points  |
 | ---------------------------------------------------- | ------- |
-| *Read network configuration file                     | 10      |
-| *Handle error(s) while reading the config file       | 10      |
-| *Format UPDATE message                               | 10      |
-| *Parse UPDATE message and update DV                  | 10      |
-| *Parse UPDATE message and ignore it                  | 10      |
-| *Format HELLO message                                | 10      |
-| *Parse HELLO message and display it                  | 10      |
-| *Parse HELLO message and forward it                  | 10      |
-| Display router's Distance Vector                     | 10      |
-| Send UPDATE message to all neighbors on boot         | 10      |
-| Send UPDATE message to all neighbors occasionally    | 10      |
-| Receive UPDATE message from any neighbor             | 10      |
-| Send HELLO message                                   | 10      |
-| Receive HELLO message                                | 10      |
-| Keep running until manually closed                   | 10      |
-| **Total**                                            | **150** |
-| Syntax errors                                        | -20     |
-| Application crashes                                  | -20     |
-| Spamming the neighbors                               | -20     |
-| Sending problem(s)                                   | -20     |
-| Receiving problem(s)                                 | -20     |
-| **Penalty**                                          | **-100**  |
+| *Read network configuration file                     | 3-4     |
+| *Handle error(s) while reading the config file       | 3-4     |
+| *Format UPDATE message                               | 3-4     |
+| *Parse UPDATE message and update DV                  | 3-4     |
+| *Parse UPDATE message and ignore it                  | 3-4     |
+| *Format HELLO message                                | 3-4     |
+| *Parse HELLO message and display it                  | 3-4     |
+| *Parse HELLO message and forward it                  | 3-4     |
+| Display router's Distance Vector                     | 3-4     |
+| Send UPDATE message to all neighbors on boot         | 3-4     |
+| Send UPDATE message to all neighbors occasionally    | 3-4     |
+| Receive UPDATE message from any neighbor             | 3-4     |
+| Send HELLO message                                   | 3-4     |
+| Receive HELLO message                                | 3-4     |
+| Keep running until manually closed                   | 3-4     |
+| **Total**                                            | **50**  |
+| Syntax errors                                        | -3      |
+| Application crashes                                  | -3      |
+| Spamming the neighbors                               | -3      |
+| Sending problem(s)                                   | -3      |
+| Receiving problem(s)                                 | -3      |
+| **Penalty**                                          | **-15** |
 
 ## References
 
