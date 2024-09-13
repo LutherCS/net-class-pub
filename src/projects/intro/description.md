@@ -59,8 +59,8 @@ Use Wireshark to capture the exchange and add the resulting file to your reposit
 
 ## References
 
-- [argparse — Parser for command-line options, arguments and sub-commands — Python 3.10.6 documentation](https://docs.python.org/3/library/argparse.html)
-- [logging — Logging facility for Python — Python 3.10.6 documentation](https://docs.python.org/3/library/logging.html)
-- [socket — Low-level networking interface — Python 3.10.6 documentation](https://docs.python.org/3/library/socket.html)
+- [argparse — Parser for command-line options, arguments and sub-commands — Python 3.12.3 documentation](https://docs.python.org/3/library/argparse.html)
+- [logging — Logging facility for Python — Python 3.12.3 documentation](https://docs.python.org/3/library/logging.html)
+- [socket — Low-level networking interface — Python 3.12.3 documentation](https://docs.python.org/3/library/socket.html)
 - [Wireshark · Go Deep.](https://www.wireshark.org/)
 - [Home · Wiki · Wireshark Foundation / wireshark · GitLab](https://gitlab.com/wireshark/wireshark/-/wikis/home)
