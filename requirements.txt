@@ -1,7 +1,3 @@
-black
-colorama
 freezegun
-isort
 mock
-pylint
 pytest
