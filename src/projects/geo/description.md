@@ -53,4 +53,4 @@ Not required for this project but may help you during the debugging phase.
 ## References
 
 - [Alphabetical List of World Countries and Capitals – Bold Tuesday](https://www.boldtuesday.com/pages/alphabetical-list-of-all-countries-and-capitals-shown-on-list-of-countries-poster)
-- [csv — CSV File Reading and Writing — Python 3.8.6 documentation](https://docs.python.org/3/library/csv.html)
+- [csv — CSV File Reading and Writing — Python 3 documentation](https://docs.python.org/3/library/csv.html)
