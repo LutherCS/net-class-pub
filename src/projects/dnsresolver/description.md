@@ -56,7 +56,7 @@ python -m pytest tests/projects/dnsresolver/test_resolver.py
 
 ## Approach
 
-- Use argparse to grab command-line arguments and `parse_cli_query` to parse them into the specified format
+- Use `argparse` to grab command-line arguments and `parse_cli_query` to parse them into the specified format
 - Look at a valid DNS request (eg. ping luther.edu and capture the traffic)
 ![DNS request](dns_query.png)
 
@@ -92,15 +92,15 @@ python -m pytest tests/projects/dnsresolver/test_resolver.py
                                      left 8      middle 8    right 8
 ```
 
-### `bytes_to_val(byte_list: list) -> int`
+### `bytes_to_val(data: bytes) -> int`
 
-`bytes_to_val` takes a list of bytes and returns their value as a single integer. Use shift (<<) and addition in a loop to construct the result. This function is used extensively as many DNS fields are stored in 2 bytes. You should be able to process input lists of any size. 
+`bytes_to_val` takes a list of bytes and returns their value as a single integer. Use shift (<<) and addition in a loop to construct the result. This function is used extensively as many DNS fields are stored in 2 bytes. You should be able to process input lists of any size.
 
 ```text
 [6, 145, 94] = [0b110, 0b10010001, 0b01011110] => 0b1101001000101011110 = 430430
 ```
 
-### `get_2_bits(byte_list: list) -> int`
+### `get_2_bits(data: bytes) -> int`
 
 `get_2_bits` extracts the leftmost 2 bits from a 2-byte sequence. Use a simple shift to extract the target bits. This function is used to determine whether the domain is stored in the answer as a label or a pointer. See the provided references for details on those two formats.
 
@@ -108,7 +108,7 @@ python -m pytest tests/projects/dnsresolver/test_resolver.py
 0xc00c = 0b1100000000001100 => leftmost 2 bits are 0b11 = 3
 ```
 
-### `get_offset(byte_list: list) -> int`
+### `get_offset(data: bytes) -> int`
 
 `get_offset` extracts the rightmost 14 bits from a 2-byte sequence. This function can be used to extract the location of the domain name inside a response. Note that a response may contain either labels or pointers, so don't rely on the *magic* of `0xc00c`. A more descriptive name for this function is *get_domain_name_location_within_a_server_response*. Do not confuse the offset found by this function with the offset of answers within the response.
 
@@ -116,7 +116,7 @@ python -m pytest tests/projects/dnsresolver/test_resolver.py
 0xc00c = 0b1100000000001100 => rightmost 14 bits are 0b1100= 12
 ```
 
-### `parse_cli_query(q_domain: str, q_type: str, q_server: str = None) -> Tuple[list, int, str]`
+### `parse_cli_query(q_domain: str, q_type: str, q_server: str | None = None) -> tuple[list, int, str]`
 
 `parse_cli_query` takes the domain name, a query type, and an optional server address as parameters. It returns a tuple of the domain name (as a list of strings), numeric value of the query type (as found in the `DNS_TYPES` dictionary), and the server address. If the server address is not specified, pick one randomly from the `PUBLIC_DNS_SERVER` collection. If the requested record type is not *A* or *AAAA*, raise a `ValueError`.
 

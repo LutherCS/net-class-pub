@@ -3,7 +3,7 @@
 `dnsresolver` implementation
 
 @authors:
-@version: 2022.10
+@version: 2024.10
 """
 
 import argparse
@@ -29,7 +29,7 @@ PUBLIC_DNS_SERVER = [
 ]
 
 
-def val_to_2_bytes(value: int) -> tuple[int]:
+def val_to_2_bytes(value: int) -> tuple[int, int]:
     """
     Split a value into 2 bytes
     Return the result as a tuple of 2 integers
@@ -38,7 +38,7 @@ def val_to_2_bytes(value: int) -> tuple[int]:
     ...
 
 
-def val_to_n_bytes(value: int, n_bytes: int) -> tuple[int]:
+def val_to_n_bytes(value: int, n_bytes: int) -> tuple[int, ...]:
     """
     Split a value into n bytes
     Return the result as a tuple of n integers
@@ -47,13 +47,13 @@ def val_to_n_bytes(value: int, n_bytes: int) -> tuple[int]:
     ...
 
 
-def bytes_to_val(byte_list: list) -> int:
+def bytes_to_val(data: bytes) -> int:
     """Merge n bytes into a value"""
     # TODO: Implement this function
     ...
 
 
-def get_2_bits(byte_list: list) -> int:
+def get_2_bits(data: bytes) -> int:
     """
     Extract first two bits of a two-byte sequence
     Return the result as a decimal value
@@ -62,7 +62,7 @@ def get_2_bits(byte_list: list) -> int:
     ...
 
 
-def get_domain_name_location(byte_list: list) -> int:
+def get_domain_name_location(data: bytes) -> int:
     """
     Extract size of the offset from a two-byte sequence
     Return the result as a decimal value
@@ -72,7 +72,7 @@ def get_domain_name_location(byte_list: list) -> int:
 
 
 def parse_cli_query(
-    q_domain: str, q_type: str, q_server: str = None
+    q_domain: str, q_type: str, q_server: str | None = None
 ) -> tuple[list, int, str]:
     """
     Parse command-line query
@@ -99,7 +99,7 @@ def format_query(q_domain: list, q_type: int) -> bytearray:
     ...
 
 
-def parse_response(resp_bytes: bytes) -> list:
+def parse_response(resp_bytes: bytes) -> list[tuple]:
     """
     Parse server response
     Take response bytes as a parameter

@@ -1,0 +1,264 @@
+[meta]
+authors = "Roman Yasinovskyy"
+comment = "Public test cases for the dnsresolver project"
+version = "2024.10"
+
+[[test_case_bytes]]
+all_bytes = [1, 174]
+n_bytes   = 2
+number    = 430
+
+[[test_case_bytes]]
+all_bytes = [168, 35]
+n_bytes   = 2
+number    = 43043
+
+[[test_case_bytes]]
+all_bytes = [6, 145, 94]
+n_bytes   = 3
+number    = 430430
+
+[[test_case_bits]]
+all_bytes = [0xc0, 0x0c]
+bit_value = 3
+offset    = 12
+
+[[test_case_bits]]
+all_bytes = [128, 43]
+bit_value = 2
+offset    = 43
+
+[[test_case_bits]]
+all_bytes = [0xc0, 0x18]
+bit_value = 3
+offset    = 24
+
+[[test_case_cli]]
+domain_name    = ["example", "com"]
+query          = ["example.com", "A"]
+record_type    = 1
+server_address = ""
+
+[[test_case_cli]]
+domain_name    = ["example", "com"]
+query          = ["example.com", "A", "1.1.1.1"]
+record_type    = 1
+server_address = "1.1.1.1"
+
+[[test_case_cli]]
+domain_name    = ["example", "com"]
+query          = ["example.com", "AAAA"]
+record_type    = 28
+server_address = ""
+
+[[test_case_cli]]
+domain_name    = ["example", "com"]
+query          = ["example.com", "AAAA", "1.0.0.1"]
+record_type    = 28
+server_address = "1.0.0.1"
+
+[[test_case_cli]]
+domain_name    = ["donald", "knuth", "luther", "edu"]
+query          = ["donald.knuth.luther.edu", "A"]
+record_type    = 1
+server_address = ""
+
+[[test_case_cli]]
+domain_name    = ["donald", "knuth", "luther", "edu"]
+query          = ["donald.knuth.luther.edu", "AAAA", "1.0.0.1"]
+record_type    = 28
+server_address = "1.0.0.1"
+
+[[test_case_cli_error]]
+error_msg = "AAA is an unknown query type"
+query     = ["example.com", "AAA"]
+
+[[test_case_cli_error]]
+error_msg = "MX is an unknown query type"
+query     = ["example.com", "MX"]
+
+[[test_case_format_query]]
+domain_name     = ["example", "com"]
+query_data_file = "query_data_examplecom_aaaa.bin"
+record_type     = 28
+
+[[test_case_format_query]]
+domain_name     = ["luther", "edu"]
+query_data_file = "query_data_lutheredu_a.bin"
+record_type     = 1
+
+[[test_case_parse_address_a]]
+addr_bytes  = [0x17, 0xb9, 0x00, 0x01]
+addr_human  = "23.185.0.1"
+addr_length = 4
+
+[[test_case_parse_address_a]]
+addr_bytes  = [0x34, 0x01, 0xe6, 0xdd]
+addr_human  = "52.1.230.221"
+addr_length = 4
+
+[[test_case_parse_address_aaaa]]
+addr_bytes = [
+    0x20,
+    0x01,
+    0x49,
+    0x98,
+    0x00,
+    0x0c,
+    0x10,
+    0x23,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x04,
+]
+addr_human = "2001:4998:c:1023:0:0:0:4"
+addr_length = 16
+
+[[test_case_parse_address_aaaa]]
+addr_bytes = [
+    0x2a,
+    0x03,
+    0x28,
+    0x80,
+    0xf1,
+    0x2c,
+    0x01,
+    0x83,
+    0xfa,
+    0xce,
+    0xb0,
+    0x0c,
+    0x00,
+    0x00,
+    0x25,
+    0xde,
+]
+addr_human = "2a03:2880:f12c:183:face:b00c:0:25de"
+addr_length = 16
+
+[[test_case_parse_answers]]
+answer             = [["luther.edu", "23.185.0.1", 300]]
+number_of_answers  = 1
+offset             = 28
+response_data_file = "response_data_lutheredu_ns.bin"
+
+[[test_case_parse_answers]]
+answer = [
+    [
+        "yahoo.com",
+        "2001:4998:44:41d:0:0:0:4",
+        1257,
+    ],
+    [
+        "yahoo.com",
+        "2001:4998:44:41d:0:0:0:3",
+        1257,
+    ],
+    [
+        "yahoo.com",
+        "2001:4998:58:1836:0:0:0:11",
+        1257,
+    ],
+    [
+        "yahoo.com",
+        "2001:4998:c:1023:0:0:0:4",
+        1257,
+    ],
+    [
+        "yahoo.com",
+        "2001:4998:c:1023:0:0:0:5",
+        1257,
+    ],
+    [
+        "yahoo.com",
+        "2001:4998:58:1836:0:0:0:10",
+        1257,
+    ],
+]
+number_of_answers = 6
+offset = 27
+response_data_file = "response_data_yahoocom_ns.bin"
+
+[[test_case_parse_response]]
+answer             = [["luther.edu", "23.185.0.1", 300]]
+response_data_file = "response_data_lutheredu_a.bin"
+
+[[test_case_parse_response]]
+answer             = [["fb.com", "157.240.14.35", 5]]
+response_data_file = "response_data_fbcom_a.bin"
+
+[[test_case_parse_response]]
+response_data_file = "response_data_yahoocom_a.bin"
+
+answer = [
+    [
+        "yahoo.com",
+        "98.137.246.7",
+        5,
+    ],
+    [
+        "yahoo.com",
+        "72.30.35.9",
+        5,
+    ],
+    [
+        "yahoo.com",
+        "72.30.35.10",
+        5,
+    ],
+    [
+        "yahoo.com",
+        "98.138.219.231",
+        5,
+    ],
+    [
+        "yahoo.com",
+        "98.137.246.8",
+        5,
+    ],
+    [
+        "yahoo.com",
+        "98.138.219.232",
+        5,
+    ],
+]
+
+[[test_case_parse_response]]
+answer = [
+    [
+        "yahoo.com",
+        "2001:4998:58:1836:0:0:0:11",
+        1108,
+    ],
+    [
+        "yahoo.com",
+        "2001:4998:58:1836:0:0:0:10",
+        1108,
+    ],
+    [
+        "yahoo.com",
+        "2001:4998:44:41d:0:0:0:4",
+        1108,
+    ],
+    [
+        "yahoo.com",
+        "2001:4998:44:41d:0:0:0:3",
+        1108,
+    ],
+    [
+        "yahoo.com",
+        "2001:4998:c:1023:0:0:0:5",
+        1108,
+    ],
+    [
+        "yahoo.com",
+        "2001:4998:c:1023:0:0:0:4",
+        1108,
+    ],
+]
+response_data_file = "response_data_yahoocom_aaaa.bin"
