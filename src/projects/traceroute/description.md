@@ -1,32 +1,21 @@
 # Tracing the Route
 
-Implement `traceroute` (`tracert`) utility.
-
-Language of implementation: any.
-
+Implement `traceroute` (`tracert`) utility using ICMP.
 Use ICMP socket to send probing messages to the specified host.
-
 Display relevant statistics of the probe, similar to the `tracert` utility on Windows.
 
-Python implementation is provided, with lines of code sorted in ascending order for the convenience of search.
+The reference implementation is provided, with code formatted and lines sorted in ascending order for the convenience of search.
+Use the provided tests to verify your implementation.
 
-This project is supposed to work (and will be graded) on *Ubuntu 20.04* and may not work on other platforms. It definitely **DOES NOT** work on Mac (see BUGS section of the FreeBSD man pages).
+This project is supposed to work (and will be graded) on *Ubuntu 24.04* and may not work on other platforms. It definitely **DOES NOT** work on Mac (see BUGS section of the FreeBSD man pages).
 
-## C++
-
-```bash
-g++ --std=gnu++14 traceroute.cpp -o traceroute.out
-./traceroute.out example.com
-```
-
-## Java
+## Testing
 
 ```bash
-javac Traceroute.java
-java Traceroute example.com
+python3 -m pytest -v tests/projects/traceroute
 ```
 
-## Python
+## Running
 
 ```bash
 sudo python3 src/projects/traceroute/traceroute.py example.com
@@ -34,7 +23,7 @@ sudo python3 src/projects/traceroute/traceroute.py example.com
 
 ### Functions
 
-* `checksum`: takes *packet* as an argument and returns its Internet **checksum**.
+* `checksum`: takes *packet* as an argument and returns its internet **checksum**.
 
 * `format_request`: takes *request ID* and *sequence number* as arguments and returns a properly formatted **ICMP request packet** with *VOTE!* as *data*. This function has to compute the packet's *checksum* and add it to the header of the outgoing message.
 

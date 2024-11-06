@@ -3,9 +3,8 @@
 Testing the traceroute
 
 @author: Roman Yasinovskyy
-@version: 2022.10
+@version: 2024.11
 """
-
 
 import importlib
 import pathlib
@@ -23,9 +22,9 @@ finally:
     from src.projects.traceroute.traceroute import (
         checksum,
         format_request,
-        send_request,
-        receive_reply,
         parse_reply,
+        receive_reply,
+        send_request,
     )
 
 
@@ -47,17 +46,17 @@ def test_format_request():
     assert format_request(1, 1) == b"\x08\x00,i\x00\x01\x00\x01VOTE!"
 
 
-@freeze_time("2022-10-30")
+@freeze_time("2024-11-5")
 def test_send_request():
     """Send request"""
     with mock.patch("socket.socket") as sock:
         assert (
             send_request(sock, b"\x08\x00,i\x00\x01\x00\x01VOTE!", "127.0.0.1", 128)
-            == 1667088000.0
+            == 1730764800.0
         )
 
 
-@freeze_time("2022-10-30")
+@freeze_time("2024-11-5")
 def test_receive_reply():
     """Receive reply"""
     with mock.patch("socket.socket") as sock:
@@ -68,7 +67,7 @@ def test_receive_reply():
         assert receive_reply(sock) == (
             b"\x08\x00,i\x00\x01\x00\x01VOTE!",
             ("127.0.0.1", 0),
-            1667088000.0,
+            1730764800.0,
         )
 
 

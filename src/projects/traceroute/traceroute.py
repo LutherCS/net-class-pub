@@ -196,6 +196,7 @@
     return pkt_bytes, addr, time.time()
     return time.time()
     Send an Echo Request
+    sock: socket.socket, pkt_bytes: bytes, addr_dst: str, ttl: int
     sock.sendto(pkt_bytes, (addr_dst, 33434))
     sock.setsockopt(socket.IPPROTO_IP, socket.IP_TTL, struct.pack("I", ttl))
     Trace the route to a domain
@@ -203,8 +204,9 @@
     with socket.socket(
 """
 """
-@author:
-@version: 2022.10
+) -> float:
+@author: Roman Yasinovskyy
+@version: 2024.11
 #!/usr/bin/env python3
 ATTEMPTS = 3
 def bytes_to_str(pkt_bytes: bytes) -> str:
@@ -212,8 +214,8 @@ def checksum(pkt_bytes: bytes) -> int:
 def format_request(req_id: int, seq_num: int) -> bytes:
 def main():
 def parse_reply(pkt_bytes: bytes) -> None:
-def receive_reply(sock: socket) -> tuple:
-def send_request(sock: socket, pkt_bytes: bytes, addr_dst: str, ttl: int) -> float:
+def receive_reply(sock: socket.socket) -> tuple:
+def send_request(
 def traceroute(hostname: str, max_hops: int = 30) -> None:
 ECHO_REQUEST_CODE = 0
 ECHO_REQUEST_TYPE = 8
