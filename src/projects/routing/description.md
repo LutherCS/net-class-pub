@@ -2,7 +2,7 @@
 
 ## Task
 
-In this project you will be writing a set of procedures to implement a distributed asynchronous distance-vector routing protocol. Eventually we may try to make all the routers work together in the lab environment. In order to achieve general compatibility, it's mandatory that you use **Ubuntu 20.04** as a platform and **Python 3.10** as the implementation language.
+In this project you will be writing a set of procedures to implement a distributed asynchronous distance-vector routing protocol. Eventually we may try to make all the routers work together in the lab environment. In order to achieve general compatibility, it's mandatory that you use **Ubuntu 24.04** as a platform and **Python 3.12** as the implementation language.
 
 I recommend you implement your router application in stages, from a basic socket application to a full-fledged router.
 
@@ -66,24 +66,22 @@ Start with a socket application that reads network configuration from a file, bi
 ## Stage 2: Close Encounters of the Third Kind
 
 1. Your program must connect to the IP addresses specified in the configuration file. Your client should take a path to the configuration file as a command line argument so that we can try out a couple of different configurations. Note that in order to bootstrap the network you are going to need to have your program retry connections that fail.
-
 2. Your program must also receive data from the neighbors which may inform you of a link cost change, or may ask you to deliver a message to a particular IP address.
-
 3. Our protocol will use the following types of messages:
 
-* **UPDATE (0)**
-* **HELLO (1)**
-* **STATUS REQUEST (2)**
-* **STATUS RESPONSE (3)**
+- **UPDATE (0)**
+- **HELLO (1)**
+- **STATUS REQUEST (2)**
+- **STATUS RESPONSE (3)**
 
 The implementation of the first two is required, **STATUS** messages are optional.
 
 ### UPDATE message format
 
-* The first byte of the message (0): 0
-* Next four bytes (1-4): IP address
-* The next byte (5): cost
-* The same pattern (IP address followed by cost) repeats.
+- The first byte of the message (0): 0
+- Next four bytes (1-4): IP address
+- The next byte (5): cost
+- The same pattern (IP address followed by cost) repeats.
 
 ```text
 0       7 8     15 16    23 24    31 32    39
@@ -98,10 +96,10 @@ The implementation of the first two is required, **STATUS** messages are optiona
 
 ### HELLO message format
 
-* The first byte of the message (0): 1
-* Next four bytes (1-4): source IP address
-* Next four bytes (5-8): destination IP address
-* The rest of the message (9+): text (characters)
+- The first byte of the message (0): 1
+- Next four bytes (1-4): source IP address
+- Next four bytes (5-8): destination IP address
+- The rest of the message (9+): text (characters)
 
 ```text
 0       7 8     15 16    23 24    31 32    39
@@ -116,8 +114,8 @@ The implementation of the first two is required, **STATUS** messages are optiona
 
 ### STATUS REQUEST message format
 
-* The first byte of the message (0): 2
-* Next four bytes (1-4): source IP address of the router requesting the status
+- The first byte of the message (0): 2
+- Next four bytes (1-4): source IP address of the router requesting the status
 
 ```text
 0       7 8     15 16    23 24    31 32    39
@@ -128,11 +126,11 @@ The implementation of the first two is required, **STATUS** messages are optiona
 
 ### STATUS RESPONSE message format
 
-* The first byte of the message (0): 3
-* Next four bytes (1-4): destination IP address of the router requesting the status
-* Next four bytes (5-8): IP address
-* The next byte (9): cost
-* The same pattern (IP address followed by cost) repeats. 
+- The first byte of the message (0): 3
+- Next four bytes (1-4): destination IP address of the router requesting the status
+- Next four bytes (5-8): IP address
+- The next byte (9): cost
+- The same pattern (IP address followed by cost) repeats. 
 
 ```text
 0       7 8     15 16    23 24    31 32    39
@@ -158,8 +156,8 @@ The implementation of the first two is required, **STATUS** messages are optiona
 2. Process incoming messages
 
     1. If UPDATE, then update the routing table
-        * Does my vector change?  If so, then set flag to `update_vector`
-        * Print the *updated* routing table
+        - Does my vector change?  If so, then set flag to `update_vector`
+        - Print the *updated* routing table
     2. If HELLO, then print or forward to the destination
     3. If STATUS, then respond with the routing table
 
@@ -177,27 +175,23 @@ The implementation of the first two is required, **STATUS** messages are optiona
 
 Write the following routing functions.
 
-* Read a configuration file for your specific router and add each neighbor to a set of neighbors.
-
-* Build an initial routing table as a dictionary with nodes as keys. Dictionary values should be a distance to the node and the next hop address. Initially, the dictionary must contain your neighbors only.
+- Read a configuration file for your specific router and add each neighbor to a set of neighbors.
+- Build an initial routing table as a dictionary with nodes as keys. Dictionary values should be a distance to the node and the next hop address. Initially, the dictionary must contain your neighbors only.
 
 ```python
 {'destination':[cost, 'next_hop']}
 ```
 
-* Format the update message based on the values in the routing table and return the message. For example, a message advertising routes to **127.0.0.1** of cost **10** and to **127.0.0.2** of cost **5** is the following `bytearray`:
+- Format the update message based on the values in the routing table and return the message. For example, a message advertising routes to **127.0.0.1** of cost **10** and to **127.0.0.2** of cost **5** is the following `bytearray`:
 
 ```text
 0x0 0x7f 0x0 0x0 0x1 0xA 0x7f 0x0 0x0 0x2 0x5
 ```
 
-* Parse the update message and return `True` if the table has been updated. The function must take a message (raw bytes) and the neighbor's address and update the routing table, if necessary.
-
-* Print current routing table. The function must print the current routing table in a human-readable format (rows, columns, spacing).
-
-* Parse a message to deliver. The function must parse the message and extract the destination address. Look up the destination address in the routing table and return the next hop address.
-
-* Router works with properly implemented routers of other students.
+- Parse the update message and return `True` if the table has been updated. The function must take a message (raw bytes) and the neighbor's address and update the routing table, if necessary.
+- Print current routing table. The function must print the current routing table in a human-readable format (rows, columns, spacing).
+- Parse a message to deliver. The function must parse the message and extract the destination address. Look up the destination address in the routing table and return the next hop address.
+- Router works with properly implemented routers of other students.
 
 ## Functions
 
@@ -205,50 +199,50 @@ See the source code template file for function signatures.
 
 ### read_config_file()
 
-* Read a configuration file for your specific router and add each neighbor to a set of neighbors.
-* Build an initial routing table as a dictionary with nodes as keys.
-* Dictionary values should be a distance to the node and the next hop address (i.e. {'destination':[cost, 'next_hop']}).
-* Initially, the dictionary must contain your neighbors only.
+- Read a configuration file for your specific router and add each neighbor to a set of neighbors.
+- Build an initial routing table as a dictionary with nodes as keys.
+- Dictionary values should be a distance to the node and the next hop address (i.e. {'destination':[cost, 'next_hop']}).
+- Initially, the dictionary must contain your neighbors only.
 
 ### print_status()
 
-* Print current routing table.
-* The function must print the current routing table in a human-readable format (rows, columns, spacing).
+- Print current routing table.
+- The function must print the current routing table in a human-readable format (rows, columns, spacing).
 
 ### format_update()
 
-* Format the update message based on the values in the routing table.
-* The message advertising routes to 127.0.0.1 of cost 10 and to 127.0.0.2 of cost 5 is a `bytearray` in the following format
+- Format the update message based on the values in the routing table.
+- The message advertising routes to 127.0.0.1 of cost 10 and to 127.0.0.2 of cost 5 is a `bytearray` in the following format
 
 ```text
 0x0 0x7f 0x0 0x0 0x1 0xA 0x7f 0x0 0x0 0x2 0x5
 ```
 
-* The function must return the message.
+- The function must return the message.
 
 ### send_update()
 
-* **Optional** (not tested) function that can be used to send the update message to another router
+- Send the update message to another router
 
 ### parse_update()
 
-* Parse the update message and return `True` if the table has been updated
-* The function must take a message (raw bytes) and the neighbor's address and update the routing table, if necessary.
+- Parse the update message and return `True` if the table has been updated
+- The function must take a message (raw bytes) and the neighbor's address and update the routing table, if necessary.
 
 ### format_hello()
 
-* Format the message according to the rules specified above.
+- Format the message according to the rules specified above.
 
 ### send_hello()
 
-* **Optional** (not tested) function that can be used to send the text message to another router
+- Send the text message to another router
 
 ### parse_hello()
 
-* Parse a message to deliver.
-* The function must parse the message and extract the destination address.
-* If *this* router is the destination, return (and print) the message, else forward it further
-* Look up the destination address in the routing table and return the next hop address.
+- Parse a message to deliver.
+- The function must parse the message and extract the destination address.
+- If *this* router is the destination, return (and print) the message, else forward it further
+- Look up the destination address in the routing table and return the next hop address.
 
 ## Testing the implementation
 
@@ -285,33 +279,34 @@ wireshark -X lua_script:trivial_routing_protocol.lua routing_capture.pcapng &
 
 ## Grading
 
-| Functionality (* signifies a unit test is available) | Points  |
-| ---------------------------------------------------- | ------- |
-| *Read network configuration file                     | 3-4     |
-| *Handle error(s) while reading the config file       | 3-4     |
-| *Format UPDATE message                               | 3-4     |
-| *Parse UPDATE message and update DV                  | 3-4     |
-| *Parse UPDATE message and ignore it                  | 3-4     |
-| *Format HELLO message                                | 3-4     |
-| *Parse HELLO message and display it                  | 3-4     |
-| *Parse HELLO message and forward it                  | 3-4     |
-| Display router's Distance Vector                     | 3-4     |
-| Send UPDATE message to all neighbors on boot         | 3-4     |
-| Send UPDATE message to all neighbors occasionally    | 3-4     |
-| Receive UPDATE message from any neighbor             | 3-4     |
-| Send HELLO message                                   | 3-4     |
-| Receive HELLO message                                | 3-4     |
-| Keep running until manually closed                   | 3-4     |
-| **Total**                                            | **50**  |
-| Syntax errors                                        | -3      |
-| Application crashes                                  | -3      |
-| Spamming the neighbors                               | -3      |
-| Sending problem(s)                                   | -3      |
-| Receiving problem(s)                                 | -3      |
-| **Penalty**                                          | **-15** |
+(t) signifies a unit test is available.
+
+| Functionality                                     | Points  |
+|---------------------------------------------------|---------|
+| (t) Read network configuration file               | 3       |
+| (t) Handle error(s) while reading the config file | 3       |
+| (t) Format UPDATE message                         | 3       |
+| (t) Format HELLO message                          | 3       |
+| (t) Parse UPDATE message and update DV            | 4       |
+| (t) Parse UPDATE message and ignore it            | 4       |
+| (t) Parse HELLO message and display it            | 4       |
+| (t) Parse HELLO message and forward it            | 4       |
+| Display router's Distance Vector                  | 3       |
+| Send UPDATE message to all neighbors on boot      | 3       |
+| Send UPDATE message to all neighbors occasionally | 4       |
+| Receive UPDATE message from any neighbor          | 3       |
+| Send HELLO message                                | 3       |
+| Receive HELLO message                             | 3       |
+| Keep running until manually closed                | 3       |
+| **Total**                                         | **50**  |
+| Syntax errors                                     | -3      |
+| Application crashes                               | -3      |
+| Spamming the neighbors                            | -3      |
+| Sending problem(s)                                | -3      |
+| Receiving problem(s)                              | -3      |
+| **Penalty**                                       | **-15** |
 
 ## References
 
-* [socket — Low-level networking interface — Python 3.7.1 documentation](https://docs.python.org/3/library/socket.html)
-
-* [select — Waiting for I/O completion — Python 3.7.1 documentation](https://docs.python.org/3/library/select.html)
+- [socket — Low-level networking interface — Python 3.12.7 documentation](https://docs.python.org/3.12/library/socket.html)
+- [select — Waiting for I/O completion — Python 3.12.7 documentation](https://docs.python.org/3.12/library/select.html)

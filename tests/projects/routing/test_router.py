@@ -3,9 +3,8 @@
 Router testing using UDP sockets
 
 @author: Roman Yasinovskyy
-@version: 2022.12
+@version: 2024.12
 """
-
 
 import importlib
 import pathlib
@@ -80,16 +79,16 @@ def test_parse_update(routing_table, message, addr, status):
     "msg_txt, src, dst, msg_bytes",
     [
         (
-            "Focal Fossa",
+            "Noble Numbat",
             "127.0.0.1",
             "127.0.0.2",
-            b"\x01\x7f\x00\x00\x01\x7f\x00\x00\x02Focal\x20Fossa",
+            b"\x01\x7f\x00\x00\x01\x7f\x00\x00\x02Noble\x20Numbat",
         ),
         (
-            "Groovy Gorilla",
+            "Jammy Jellyfish",
             "127.0.0.1",
             "127.0.0.4",
-            b"\x01\x7f\x00\x00\x01\x7f\x00\x00\x04Groovy\x20Gorilla",
+            b"\x01\x7f\x00\x00\x01\x7f\x00\x00\x04Jammy\x20Jellyfish",
         ),
     ],
 )
@@ -102,12 +101,12 @@ def test_format_hello(msg_txt, src, dst, msg_bytes):
     "message, result",
     [
         (
-            b"\x01\x7f\x00\x00\x03\x7f\x00\x00\x01Focal\x20Fossa",
-            "Received Focal Fossa from 127.0.0.3",
+            b"\x01\x7f\x00\x00\x03\x7f\x00\x00\x01Noble\x20Numbat",
+            "Received Noble Numbat from 127.0.0.3",
         ),
         (
-            b"\x01\x7f\x00\x00\x04\x7f\x00\x00\x02Groovy\x20Gorilla",
-            "Forwarded Groovy Gorilla to 127.0.0.2",
+            b"\x01\x7f\x00\x00\x04\x7f\x00\x00\x02Jammy\x20Jellyfish",
+            "Forwarded Jammy Jellyfish to 127.0.0.2",
         ),
     ],
 )
