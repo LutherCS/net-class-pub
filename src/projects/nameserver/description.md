@@ -4,56 +4,18 @@ Complete the following programming project and push code to your GitHub reposito
 
 **Process records of type A (IPv4) or AAAA (IPv6) only. If a client requests anything else, ignore it.**
 
-Use your DNS resolver or `nslookup` to initiate requests to the server.
+Use `nslookup` to initiate requests to the server.
 
-```bash
-python3 nameserver.py zoo.zone
-```
-
-1. Read the zone file *zoo.zone* and resolve names found there. You **do not** need to process *cs430.zone*.
-
+1. Read the zone file (e.g. *zoo.zone*) and resolve names found there.
 2. Create a UDP socket connection and wait for a message from the DNS resolver.
-
 3. Parse the DNS request.
-
-4. Find the domain in the zone file.
-
+4. Find the domain in the zone.
 5. Format the response, byte by byte (you may want to use Python's `bytearray` for that).
-
 6. Return answer(s).
-
 7. Pass all tests provided.
-
-    ```bash
-    python3 -m pytest test_nameserver.py
-    ```
-
-8. Use your `resolver.py` or `nslookup` to resolve some domain name from the zone file. Note that you need to connect to port **43053** on your **localhost**.
+8. Use `nslookup` to resolve some domain name from the zone file. Note that you need to connect to port **43053** on your **localhost**.
 
 ## Usage example
-
-Using `resolver.py` to resolve type **A** address.
-
-```bash
-> python3 resolver.py A ant.cs430.luther.edu 127.0.0.1
-DNS server used: 127.0.0.1
-Domain: ant.cs430.luther.edu
-TTL: 3600
-Address: 185.84.224.89
-Domain: ant.cs430.luther.edu
-TTL: 3600
-Address: 199.83.67.158
-```
-
-Using `resolver.py` to resolve type **AAAA** address.
-
-```bash
-python3 resolver.py AAAA ant.cs430.luther.edu 127.0.0.1
-DNS server used: 127.0.0.1
-Domain: ant.cs430.luther.edu
-TTL: 3600
-Address: 4a9a:70ec:3ac0:c684:359e:8d37:9486:5959
-```
 
 Using `nslookup` to resolve type **A** address.
 
@@ -83,9 +45,8 @@ Address: 4a9a:70ec:3ac0:c684:359e:8d37:9486:5959
 
 ## Approach
 
-* Look at a valid DNS response (eg. ping www.luther.edu and capture the traffic)
-
-* Analyze the structure of a message (see the links below for details) and replicate it
+- Look at a valid DNS response (e.g. ping any site and capture the traffic)
+- Analyze the structure of a message (see the links below for details) and replicate it
 
 ## Functions
 
@@ -105,9 +66,18 @@ Address: 4a9a:70ec:3ac0:c684:359e:8d37:9486:5959
 
 `get_right_bits` takes a 2-byte list and a number *n* and returns rightmost *n* bits of that sequence as an integer.
 
-### read_zone_file(filename: str) -> tuple
+### get_origin(filename: str) -> str
 
-`read_zone_file` takes file name as a parameter and reads the **zone** from that file. This function builds a dictionary of the following format: `{domain: [(ttl, class, type, address)]}` where each record is a list of tuples (answers). The function should return a tuple of `(origin, zone_dict)`. If the requested domain is not in our zon, `parse_request` should raise a `ValueError`. Note that the records in the zone file may be incomplete (missing a domain name or TTL). The missing domain name should be replaced with the one from the previous line, missing TTL should be replaced with the default one (2nd line of the zone file). If a record contains multiple answers, return them all.
+`get_origin` takes file name as a parameter and reads the **zone origin** (value in the first line) from that file.
+
+### read_zone_file(filename: str) -> dict
+
+`read_zone_file` takes file name as a parameter and reads the **zone** from that file.
+This function builds a dictionary of the following format: `{domain: [(ttl, class, type, address)]}` where each record is a list of tuples (answers).
+If the requested domain is not in our zone, `parse_request` should raise a `ValueError`.
+Note that the records in the zone file may be incomplete (missing a domain name or TTL).
+The missing domain name should be replaced with the one from the previous line, missing TTL should be replaced with the default one (2nd line of the zone file).
+If a record contains multiple answers, return them all.
 
 ### parse_request(origin: str, msg_req: bytes) -> tuple
 
@@ -128,14 +98,22 @@ Address: 4a9a:70ec:3ac0:c684:359e:8d37:9486:5959
 
 `run` is the main loop of the server and is implemented for your convenience.
 
+## Running
+
+```bash
+python src/projects/nameserver/nameserver.py data/projects/nameserver/zoo.zone
+```
+
+## Testing
+
+```bash
+python3 -m pytest tests/projects/nameserver/test_nameserver.py
+```
+
 ## Resources
 
-* [RFC 1034 - Domain names - concepts and facilities](https://tools.ietf.org/html/rfc1034)
-
-* [RFC 1035 - Domain names - implementation and specification](https://tools.ietf.org/html/rfc1035)
-
-* [The TCP/IP Guide - DNS Messaging and Message, Resource Record and Master File Formats](http://www.tcpipguide.com/free/t_DNSMessagingandMessageResourceRecordandMasterFileF.htm)
-
-* [Chapter 15 DNS Messages](http://www.zytrax.com/books/dns/ch15/)
-
-* [Domain Name System (DNS) Parameters](http://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml)
+- [RFC 1034 - Domain names - concepts and facilities](https://tools.ietf.org/html/rfc1034)
+- [RFC 1035 - Domain names - implementation and specification](https://tools.ietf.org/html/rfc1035)
+- [The TCP/IP Guide - DNS Messaging and Message, Resource Record and Master File Formats](http://www.tcpipguide.com/free/t_DNSMessagingandMessageResourceRecordandMasterFileF.htm)
+- [Chapter 15 DNS Messages](http://www.zytrax.com/books/dns/ch15/)
+- [Domain Name System (DNS) Parameters](http://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml)

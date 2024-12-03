@@ -3,7 +3,7 @@
 `nameserver` implementation
 
 @author:
-@version:
+@version: 2024.12
 """
 
 import argparse
@@ -25,7 +25,7 @@ TTL_SEC = {
 }
 
 
-def val_to_n_bytes(value: int, n_bytes: int) -> tuple[int]:
+def val_to_n_bytes(value: int, n_bytes: int) -> tuple[int, ...]:
     """
     Split a value into n bytes
     Return the result as a tuple of n integers
@@ -58,7 +58,15 @@ def get_right_n_bits(bytes_lst: list, n_bits: int) -> int:
     ...
 
 
-def read_zone_file(filename: str) -> tuple:
+def get_origin(filename: str) -> str:
+    """
+    Read the origin from the zone file
+    """
+    # TODO: Implement this function
+    ...
+
+
+def read_zone_file(filename: str) -> dict[str, list]:
     """
     Read the zone file and build a dictionary
     Use domain names as keys and list(s) of records as values
@@ -86,7 +94,8 @@ def format_response(
 
 def run(filename: str) -> None:
     """Main server loop"""
-    origin, zone = read_zone_file(filename)
+    origin = get_origin(filename)
+    zone = read_zone_file(filename)
     with socket(AF_INET, SOCK_DGRAM) as server_sckt:
         server_sckt.bind((HOST, PORT))
         print("Listening on %s:%d" % (HOST, PORT))

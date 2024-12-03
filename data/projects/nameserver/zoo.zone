@@ -1,5 +1,5 @@
 $ORIGIN cs430.luther.edu.
-$TTL 1m
+$TTL 1w
 ant            1h   IN   A         185.84.224.89
                1h   IN   A         199.83.67.158
                1h   IN   AAAA      4a9a:70ec:3ac0:c684:359e:8d37:9486:5959
