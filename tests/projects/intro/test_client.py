@@ -1,14 +1,14 @@
-#!/usr/bin/env python3
 """
 `intro client` testing
 
 @authors: Roman Yasinovskyy
-@version: 2022.9
+@version: 2026.9
 """
 
-import importlib
+import importlib.util
 import pathlib
 import sys
+from unittest import mock
 
 import pytest
 
@@ -35,7 +35,7 @@ finally:
         ),
     ],
 )
-def test_client_format(message, data):
+def test_format_message(message, data):
     """Testing the output"""
     assert format_message(message) == data
 
@@ -55,9 +55,32 @@ def test_client_format(message, data):
         ),
     ],
 )
-def test_client_parse(data, message):
+def test_parse_data(data, message):
     """Testing the output"""
     assert parse_data(data) == message
+
+
+@pytest.mark.parametrize(
+    "sock_data, result",
+    [
+        (b"Hello, Toph", "Hello, Toph"),
+        (b"Hello, The Child", "Hello, The Child"),
+        (
+            b"Hello, \xe3\x83\x95\xe3\x83\xb3\xe3\x83\x99\xe3\x83\xab\xe3\x83\x88\xe3\x83\xbb\xe3\x83\x95\xe3\x82\xa9\xe3\x83\xb3\xe3\x83\xbb\xe3\x82\xb8\xe3\x83\x83\xe3\x82\xad\xe3\x83\xb3\xe3\x82\xb2\xe3\x83\xb3",
+            "Hello, フンベルト・フォン・ジッキンゲン",
+        ),
+        (
+            b"Hello, \xd0\xa7\xd0\xbe\xd1\x80\xd0\xbd\xd0\xb0 \xd0\xb2\xd0\xb4\xd0\xbe\xd0\xb2\xd0\xb0",
+            "Hello, Чорна вдова",
+        ),
+    ],
+)
+def test_parse_response(sock_data, result):
+    """Parse server response"""
+    with mock.patch("socket.socket") as sock:
+        sock.recvfrom.return_value = sock_data
+        sock.fileno.return_value = 0
+        assert parse_data(sock_data) == result
 
 
 if __name__ == "__main__":
