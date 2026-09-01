@@ -1,0 +1,7 @@
+[project]
+dependencies    = ["freezegun>=1.5.5", "pytest>=9.1.1"]
+description     = "Add your description here"
+name            = "net-class-prep"
+readme          = "README.md"
+requires-python = ">=3.12"
+version         = "2026.9"
