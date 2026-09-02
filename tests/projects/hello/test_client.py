@@ -17,7 +17,7 @@ try:
 except ModuleNotFoundError:
     sys.path.append(f"{pathlib.Path(__file__).parents[3]}/")
 finally:
-    from src.projects.intro.client import format_message, parse_data
+    from src.projects.hello.client import format_message, parse_data
 
 
 @pytest.mark.parametrize(
