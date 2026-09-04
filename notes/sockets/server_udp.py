@@ -1,9 +1,14 @@
-#!/usr/bin/env python3
-"""UDP socket server"""
+"""
+UDP socket server
+
+@author: Roman Yasinovskyy
+@version: 2026.9
+"""
+
 import socket
-from socket import SOCK_DGRAM, AF_INET
-from time import sleep
 from random import randint
+from socket import AF_INET, SOCK_DGRAM
+from time import sleep
 
 host = "127.0.0.2"
 port = 4300

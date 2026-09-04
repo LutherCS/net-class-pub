@@ -1,12 +1,21 @@
+"""
+TCP socket client
+
+@author: Roman Yasinovskyy
+@version: 2026.9
+"""
+
 import socket
-from socket import SOCK_STREAM, AF_INET
+from socket import AF_INET, SOCK_STREAM
 
 host = "127.0.0.1"
 server = "127.0.0.2"
 port = 4300
 
+
 def main():
     print("Client here")
+
     with socket.socket(AF_INET, SOCK_STREAM) as sock:
         sock.connect((server, port))
         while True:
