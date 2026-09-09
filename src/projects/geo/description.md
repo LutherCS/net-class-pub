@@ -1,12 +1,18 @@
 # Geography server
 
-Your goal is to implement a client/server application with two sides communicating over *UDP*. The server should read a list of countries and their capitals from the file specified as a command-line argument (*world.csv*), wait for the client's query (a country name), and respond with the capital, if possible. The client should read user input, send it to the server, and wait for the response.
+Your goal is to implement a client/server application with two sides communicating over *UDP*.
+The server should read a list of countries and their capitals from the file specified as a command-line argument (*world.csv*), wait for the client's query (a country name), and respond with the capital, if possible.
+The client should read user input, send it to the server, and wait for the response.
 
-This exchange should continue until the user enters "BYE", at which point both sides should quit gracefully. Note that some countries have multiple names (e.g. United States of America or USA) and/or capitals (e.g. South Africa). Those are separated by commas in the data file.
+This exchange should continue until the user enters "BYE", at which point both sides should quit gracefully.
+Note that some countries have multiple names (e.g. United States of America or USA) and/or capitals (e.g. South Africa).
+Those are separated by commas in the data file.
 
-The tricky part is the implementation of the *graceful* disconnect since UDP does not have a *connection* to begin with. Your job is to figure out how to terminate the session on both ends, client's and server's.
+The tricky part is the implementation of the *graceful* disconnect since UDP does not have a *connection* to begin with.
+Your job is to figure out how to terminate the session on both ends, client's and server's.
 
-For this project you need to implement functions `read_file`, `find_capital`, `format` and `parse` and verify the correctness of your implementation by passing the provided tests. You also need to complete the `client_loop` and `server_loop` for your applications to run correctly.
+For this project you need to implement functions `read_file`, `find_capital`, `format_message`, and `parse_data` and verify the correctness of your implementation by passing the provided tests.
+You also need to complete the `client_loop` and `server_loop` for your applications to run correctly.
 
 ## Learning goals
 
@@ -24,27 +30,39 @@ For this project you need to implement functions `read_file`, `find_capital`, `f
 
 ## Testing the implementation
 
-    python3 -m pytest tests/projects/geo/
+```bash
+python3 -m pytest tests/projects/geo/
+```
 
 If you want to enable verbose output, use flag `-v`
 
-    python3 -m pytest -v tests/projects/geo/
+```bash
+python3 -m pytest -v tests/projects/geo/
+```
 
 ## Running the server
 
-    python3 src/projects/geo/server.py data/projects/geo/world.csv
+```bash
+python3 src/projects/geo/server.py data/projects/geo/world.csv
+```
 
 If you want to enable debugging/informational messages, use flag `--debug`
 
-    python3 src/projects/geo/server.py data/projects/geo/worlds.csv --debug
+```bash
+python3 src/projects/geo/server.py data/projects/geo/world.csv --debug
+```
 
 ## Running the client
 
-    python3 src/projects/geo/client.py
+```bash
+python3 src/projects/geo/client.py
+```
 
 If you want to enable debugging/informational messages, use flag `--debug`
 
-    python3 src/projects/geo/client.py --debug
+```bash
+python3 src/projects/geo/client.py --debug
+```
 
 ## Capturing the exchange
 
@@ -53,4 +71,5 @@ Not required for this project but may help you during the debugging phase.
 ## References
 
 - [Alphabetical List of World Countries and Capitals – Bold Tuesday](https://www.boldtuesday.com/pages/alphabetical-list-of-all-countries-and-capitals-shown-on-list-of-countries-poster)
+- [socket — Low-level networking interface — Python 3 documentation](https://docs.python.org/3/library/socket.html)
 - [csv — CSV File Reading and Writing — Python 3 documentation](https://docs.python.org/3/library/csv.html)

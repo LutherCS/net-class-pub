@@ -1,10 +1,10 @@
-#!/usr/bin/env python3
 """
-`geo client` implementation
+Client implementation
 
-@authors:
-@version: 2022.9
+@author:
+@version: 2026.9
 """
+
 import argparse
 import logging
 import socket
@@ -13,14 +13,13 @@ HOST = "localhost"
 PORT = 4300
 
 
-def format_message(message: list[str]) -> bytes:
+def format_message(message: str) -> bytes:
     """Convert the message to bytes
 
     :param message: message to encode
     :return: message as bytes
     """
     # TODO: Implement this function
-    ...
 
 
 def parse_data(data: bytes) -> str:
@@ -30,7 +29,6 @@ def parse_data(data: bytes) -> str:
     :return: decoded string
     """
     # TODO: Implement this function
-    ...
 
 
 def read_user_input() -> str:
@@ -39,7 +37,6 @@ def read_user_input() -> str:
     :return: country name
     """
     # TODO: Implement this function
-    ...
 
 
 def client_loop():
@@ -54,9 +51,7 @@ def client_loop():
 def main():
     """Main function"""
     arg_parser = argparse.ArgumentParser(description="Enable debugging")
-    arg_parser.add_argument(
-        "-d", "--debug", action="store_true", help="Enable logging.DEBUG mode"
-    )
+    arg_parser.add_argument("-d", "--debug", action="store_true", help="Enable logging.DEBUG mode")
     args = arg_parser.parse_args()
     logger = logging.getLogger("root")
     if args.debug:

@@ -1,20 +1,19 @@
-#!/usr/bin/env python3
 """
-`geo client` testing
+Client testing
 
 @authors: Roman Yasinovskyy
-@version: 2022.9
+@version: 2026.9
 """
 
-import importlib
 import pathlib
 import sys
+from importlib.util import find_spec
 from io import StringIO
 
 import pytest
 
 try:
-    importlib.util.find_spec(".".join(pathlib.Path(__file__).parts[-3:-1]), "src")
+    find_spec(".".join(pathlib.Path(__file__).parts[-3:-1]), "src")
 except ModuleNotFoundError:
     sys.path.append(f"{pathlib.Path(__file__).parents[3]}/")
 finally:
@@ -38,6 +37,7 @@ def test_format_message(message, data):
     [
         (b"S\xc3\xa3o Tom\xc3\xa9", "São Tomé"),
         (b"Colombo, Sri Jayawardenepura Kotte", "Colombo, Sri Jayawardenepura Kotte"),
+        (b"Nuku\xca\xbbalofa", "Nukuʻalofa"),
     ],
 )
 def test_parse_data(data, message):
@@ -49,6 +49,7 @@ def test_parse_data(data, message):
     "user_input, expected",
     [
         ("Côte D'Ivoire", "Côte D'Ivoire"),
+        ("São Tomé & Príncipe", "São Tomé & Príncipe"),
         ("BYE", "BYE"),
     ],
 )

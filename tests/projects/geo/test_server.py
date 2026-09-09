@@ -1,27 +1,26 @@
-#!/usr/bin/env python3
 """
-`geo server` testing
+Server testing
 
 @authors: Roman Yasinovskyy
-@version: 2022.9
+@version: 2026.9
 """
 
-import importlib
 import pathlib
 import sys
+from importlib.util import find_spec
 
 import pytest
 
 try:
-    importlib.util.find_spec(".".join(pathlib.Path(__file__).parts[-3:-1]), "src")
+    find_spec(".".join(pathlib.Path(__file__).parts[-3:-1]), "src")
 except ModuleNotFoundError:
     sys.path.append(f"{pathlib.Path(__file__).parents[3]}/")
 finally:
     from src.projects.geo.server import (
+        find_capital,
         format_message,
         parse_data,
         read_file,
-        find_capital,
     )
 
 
@@ -37,6 +36,7 @@ def fixture_small_world():
     [
         ("São Tomé", b"S\xc3\xa3o Tom\xc3\xa9"),
         ("Colombo, Sri Jayawardenepura Kotte", b"Colombo, Sri Jayawardenepura Kotte"),
+        ("Nukuʻalofa", b"Nuku\xca\xbbalofa"),
     ],
 )
 def test_format_message(message, data):
@@ -59,7 +59,7 @@ def test_parse_data(data, message):
 @pytest.mark.parametrize(
     "input_file, countries",
     [
-        ("tests/projects/geo/small_world.csv", 4),
+        ("tests/projects/geo/small_world.csv", 5),
         ("data/projects/geo/world.csv", 196),
     ],
 )
@@ -71,7 +71,7 @@ def test_read_file(input_file, countries):
 @pytest.mark.parametrize(
     "input_file, countries_with_alternative_names",
     [
-        ("tests/projects/geo/small_world.csv", 6),
+        ("tests/projects/geo/small_world.csv", 7),
         ("data/projects/geo/world.csv", 201),
     ],
 )
@@ -89,6 +89,7 @@ def test_read_file_2(input_file, countries_with_alternative_names):
             "South Africa",
             "Bloemfontein, Cape Town, Pretoria",
         ),
+        ("Tonga", "Nukuʻalofa"),
         ("Ukraine", "Kyiv"),
         (
             "United States of America",
