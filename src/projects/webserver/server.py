@@ -1,41 +1,55 @@
-#!/usr/bin/env python3
 """
-Python Web server implementation
+Server implementation
 
-@authors:
-@version:
+@author:
+@version: 2026.9
 """
 
 import argparse
+import datetime
 import logging
-from datetime import datetime
 from pathlib import Path
 from random import randint
 from socket import AF_INET, SOCK_STREAM, socket
 from time import sleep
 
-SRVR_ADDR = "127.0.0.2"  # Local client is going to be 127.0.0.1
-SRVR_PORT = 43080  # Open http://127.0.0.2:43080 in a browser
+SRVR_ADDR = "127.0.0.1"
+SRVR_PORT = 4380  # Open http://127.0.0.1:4380 in a browser
 SRVR_NAME = ""
+# A request for the key should redirect to the mapped value
+REDIRECT = {"alice.txt": "alice30.txt", "test.txt": "test26.txt"}
 
 
-def parse_request(data: bytes) -> dict:
-    """Parse the incoming request"""
-    ...
+def parse_request(data: bytes) -> dict[str, str]:
+    """Parse the incoming request
+
+    :return: a dictionary of key-value mappings based on the request header
+    """
+    # TODO: Implement this function
 
 
 def format_response(
-    http_version: str, status_code: int, header: dict = {}, data: str = ""
+    http_version: str, status_code: int, header: dict | None = None, data: str = ""
 ) -> bytes:
-    """Format the response"""
-    ...
+    """Format the response
+
+    :return: encoded message that includes header and data
+    """
+    # TODO: Implement this function
 
 
 def server_loop(logfilename: Path):
     """Main server loop"""
-    print("The server has started")
+    # TODO: Implement this function using TCP socket
     with socket(AF_INET, SOCK_STREAM) as sock:
-        ...
+        while True:
+            try:
+                sock.bind((SRVR_ADDR, SRVR_PORT))
+                break
+            except OSError:
+                sleep(randint(1, 5))
+        sock.listen()
+        print("The server has started")
 
 
 def main():
@@ -48,9 +62,7 @@ def main():
         help="Log file name",
         default="src/projects/webserver/webserver.log",
     )
-    arg_parser.add_argument(
-        "-d", "--debug", action="store_true", help="Enable logging.DEBUG mode"
-    )
+    arg_parser.add_argument("-d", "--debug", action="store_true", help="Enable logging.DEBUG mode")
     args = arg_parser.parse_args()
 
     logger = logging.getLogger("root")
