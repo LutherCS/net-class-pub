@@ -9,9 +9,7 @@ import argparse
 import datetime
 import logging
 from pathlib import Path
-from random import randint
-from socket import AF_INET, SOCK_STREAM, socket
-from time import sleep
+from socket import AF_INET, SO_REUSEADDR, SOCK_STREAM, SOL_SOCKET, socket
 
 SRVR_ADDR = "127.0.0.1"
 SRVR_PORT = 4380  # Open http://127.0.0.1:4380 in a browser
@@ -42,12 +40,8 @@ def server_loop(logfilename: Path):
     """Main server loop"""
     # TODO: Implement this function using TCP socket
     with socket(AF_INET, SOCK_STREAM) as sock:
-        while True:
-            try:
-                sock.bind((SRVR_ADDR, SRVR_PORT))
-                break
-            except OSError:
-                sleep(randint(1, 5))
+        sock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+        sock.bind((SRVR_ADDR, SRVR_PORT))
         sock.listen()
         print("The server has started")
 

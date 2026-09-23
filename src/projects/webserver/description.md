@@ -94,11 +94,12 @@ See the test file for details of the message.
 ## Testing
 
 ```bash
-python -m pytest tests/projects/webserver/test_server.py
+python -m pytest tests/projects/webserver/test_server_external.py
+python -m pytest tests/projects/webserver/test_server_internal.py
 ```
 
 ```bash
-tests/projects/webserver/test_webserver.sh
+./tests/projects/webserver/test_webserver.sh
 ```
 
 ## References

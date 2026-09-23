@@ -8,6 +8,7 @@ Server testing
 import pathlib
 import sys
 from importlib.util import find_spec
+from unittest import mock
 
 import pytest
 from freezegun import freeze_time
@@ -24,23 +25,23 @@ finally:
     "data, result",
     [
         (
-            b"GET /test.txt HTTP/1.1\r\nHost: 127.0.0.2:4380\r\nUser-Agent: curl/8.5.0\r\nAccept: */*\r\n\r\n",
+            b"GET /test.txt HTTP/1.1\r\nHost: 127.0.0.1:4380\r\nUser-Agent: curl/8.5.0\r\nAccept: */*\r\n\r\n",
             {
                 "Method": "GET",
                 "Url": "/test.txt",
                 "Version": "HTTP/1.1",
-                "Host": "127.0.0.2:4380",
+                "Host": "127.0.0.1:4380",
                 "User-Agent": "curl/8.5.0",
                 "Accept": "*/*",
             },
         ),
         (
-            b"POST /test.txt HTTP/1.1\r\nHost: 127.0.0.2:4380\r\nUser-Agent: curl/8.5.0\r\nAccept: */*\r\nContent-Length: 5\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\nn=430",
+            b"POST /test.txt HTTP/1.1\r\nHost: 127.0.0.1:4380\r\nUser-Agent: curl/8.5.0\r\nAccept: */*\r\nContent-Length: 5\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\nn=430",
             {
                 "Method": "POST",
                 "Url": "/test.txt",
                 "Version": "HTTP/1.1",
-                "Host": "127.0.0.2:4380",
+                "Host": "127.0.0.1:4380",
                 "User-Agent": "curl/8.5.0",
                 "Accept": "*/*",
                 "Content-Length": "5",
@@ -49,23 +50,23 @@ finally:
             },
         ),
         (
-            b"HEAD /test.txt HTTP/1.1\r\nHost: 127.0.0.2:4380\r\nUser-Agent: curl/8.5.0\r\nAccept: */*\r\n\r\n",
+            b"HEAD /test.txt HTTP/1.1\r\nHost: 127.0.0.1:4380\r\nUser-Agent: curl/8.5.0\r\nAccept: */*\r\n\r\n",
             {
                 "Method": "HEAD",
                 "Url": "/test.txt",
                 "Version": "HTTP/1.1",
-                "Host": "127.0.0.2:4380",
+                "Host": "127.0.0.1:4380",
                 "User-Agent": "curl/8.5.0",
                 "Accept": "*/*",
             },
         ),
         (
-            b"PUT /test.txt HTTP/1.1\r\nHost: 127.0.0.2:4380\r\nUser-Agent: curl/8.5.0\r\nAccept: */*\r\nContent-Length: 6\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\nsecret",
+            b"PUT /test.txt HTTP/1.1\r\nHost: 127.0.0.1:4380\r\nUser-Agent: curl/8.5.0\r\nAccept: */*\r\nContent-Length: 6\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\nsecret",
             {
                 "Method": "PUT",
                 "Url": "/test.txt",
                 "Version": "HTTP/1.1",
-                "Host": "127.0.0.2:4380",
+                "Host": "127.0.0.1:4380",
                 "User-Agent": "curl/8.5.0",
                 "Accept": "*/*",
                 "Content-Length": "6",
@@ -74,19 +75,19 @@ finally:
             },
         ),
         (
-            b"DELETE /test.txt HTTP/1.1\r\nHost: 127.0.0.2:4380\r\nUser-Agent: curl/8.5.0\r\nAccept: */*\r\n\r\n",
+            b"DELETE /test.txt HTTP/1.1\r\nHost: 127.0.0.1:4380\r\nUser-Agent: curl/8.5.0\r\nAccept: */*\r\n\r\n",
             {
                 "Method": "DELETE",
                 "Url": "/test.txt",
                 "Version": "HTTP/1.1",
-                "Host": "127.0.0.2:4380",
+                "Host": "127.0.0.1:4380",
                 "User-Agent": "curl/8.5.0",
                 "Accept": "*/*",
             },
         ),
     ],
 )
-def test_parse_request(data, result):
+def test_parse_request_data(data, result):
     """Parse client request"""
     assert parse_request(data) == result
 
@@ -149,9 +150,47 @@ def test_parse_request(data, result):
     ],
 )
 @freeze_time("2026-09-21 21:09:26")
-def test_format_response(http_version, status_code, header, data, result):
+def test_format_response_data(http_version, status_code, header, data, result):
     """Format server response"""
     assert format_response(http_version, status_code, header, data) == result
+
+
+@pytest.mark.parametrize(
+    "sock_data, result",
+    [
+        (
+            b"GET / HTTP/1.1\r\nHost: 127.0.0.1:80\r\nUser-Agent: curl\r\nAccept: */*\r\n\r\n",
+            {
+                "Method": "GET",
+                "Url": "/",
+                "Version": "HTTP/1.1",
+                "Host": "127.0.0.1:80",
+                "User-Agent": "curl",
+                "Accept": "*/*",
+            },
+        ),
+        (
+            b"POST / HTTP/1.1\r\nHost: 127.0.0.1:4380\r\nUser-Agent: curl\r\nAccept: */*\r\nContent-Length: 5\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\nn=430",
+            {
+                "Method": "POST",
+                "Url": "/",
+                "Version": "HTTP/1.1",
+                "Host": "127.0.0.1:4380",
+                "User-Agent": "curl",
+                "Accept": "*/*",
+                "Content-Length": "5",
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Body": "n=430",
+            },
+        ),
+    ],
+)
+def test_parse_request(sock_data, result):
+    """Parse client request"""
+    with mock.patch("socket.socket") as sock:
+        sock.recvfrom.return_value = sock_data
+        sock.fileno.return_value = 0
+        assert parse_request(sock_data) == result
 
 
 if __name__ == "__main__":
