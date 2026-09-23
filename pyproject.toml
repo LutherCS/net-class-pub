@@ -1,5 +1,9 @@
 [project]
-dependencies    = ["freezegun>=1.5.5", "pytest>=9.1.1"]
+dependencies    = [
+    "freezegun>=1.5.5",
+    "pytest>=9.1.1",
+    "requests>=2.34.2",
+]
 description     = "Add your description here"
 name            = "net-class-prep"
 readme          = "README.md"
