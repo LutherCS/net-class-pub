@@ -1,7 +1,7 @@
 [meta]
 authors = "Roman Yasinovskyy"
 comment = "Public test cases for the dnsresolver project"
-version = "2024.10"
+version = "2026.10"
 
 [[test_case_bytes]]
 all_bytes = [1, 174]

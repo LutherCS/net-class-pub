@@ -4,9 +4,9 @@ Complete the following programming project and push code to your GitHub reposito
 
 **Process records of type A (IPv4) or AAAA (IPv6) only. If a server returns CNAME record instead, ignore it.**
 
-Use *yahoo.com* as an example of a clean and simple response.
+Use _yahoo.com_ as an example of a clean and simple response.
 
-Read the domain name, record type (*A* by default, *AAAA* is acceptable), and an optional DNS server as parameters passed to your program.
+Read the domain name, record type (_A_ by default, _AAAA_ is acceptable) and an optional DNS server as parameters passed to your program.
 
 ```bash
 python src/projects/dnsresolver/resolver.py luther.edu
@@ -58,12 +58,12 @@ python -m pytest tests/projects/dnsresolver/test_resolver.py
 
 - Use `argparse` to grab command-line arguments and `parse_cli_query` to parse them into the specified format
 - Look at a valid DNS request (eg. ping luther.edu and capture the traffic)
-![DNS request](dns_query.png)
+  ![DNS request](dns_query.png)
 
 - Analyze the structure of a message (see the links below for details) and replicate it
-![DNS request](dns_query_hex.png)
+  ![DNS request](dns_query_hex.png)
 
-- Format your own message, byte by byte (you may want to use Python's bytearray for that)
+- Format your own message, byte by byte (you may want to use Python's `bytearray` for that)
 - Make your client format a message based on user input (domain, record type)
 - Send the message and receive the response
 - Parse the response and present the result (IP address). Consider simple cases (domain - one or more address(es)), ignore complex paypal-like resolutions with multiple pseudos.
@@ -110,7 +110,7 @@ python -m pytest tests/projects/dnsresolver/test_resolver.py
 
 ### `get_offset(data: bytes) -> int`
 
-`get_offset` extracts the rightmost 14 bits from a 2-byte sequence. This function can be used to extract the location of the domain name inside a response. Note that a response may contain either labels or pointers, so don't rely on the *magic* of `0xc00c`. A more descriptive name for this function is *get_domain_name_location_within_a_server_response*. Do not confuse the offset found by this function with the offset of answers within the response.
+`get_offset` extracts the rightmost 14 bits from a 2-byte sequence. This function can be used to extract the location of the domain name inside a response. Note that a response may contain either labels or pointers, so don't rely on the _magic_ of `0xc00c`. A more descriptive name for this function is _get_domain_name_location_within_a_server_response_. Do not confuse the offset found by this function with the offset of answers within the response.
 
 ```text
 0xc00c = 0b1100000000001100 => rightmost 14 bits are 0b1100= 12
@@ -118,7 +118,7 @@ python -m pytest tests/projects/dnsresolver/test_resolver.py
 
 ### `parse_cli_query(q_domain: str, q_type: str, q_server: str | None = None) -> tuple[list, int, str]`
 
-`parse_cli_query` takes the domain name, a query type, and an optional server address as parameters. It returns a tuple of the domain name (as a list of strings), numeric value of the query type (as found in the `DNS_TYPES` dictionary), and the server address. If the server address is not specified, pick one randomly from the `PUBLIC_DNS_SERVER` collection. If the requested record type is not *A* or *AAAA*, raise a `ValueError`.
+`parse_cli_query` takes the domain name, a query type, and an optional server address as parameters. It returns a tuple of the domain name (as a list of strings), numeric value of the query type (as found in the `DNS_TYPES` dictionary), and the server address. If the server address is not specified, pick one randomly from the `PUBLIC_DNS_SERVER` collection. If the requested record type is not _A_ or _AAAA_, raise a `ValueError`.
 
 ### `format_query(q_domain: list, q_type: int) -> bytearray`
 
@@ -136,7 +136,7 @@ python -m pytest tests/projects/dnsresolver/test_resolver.py
 
 ### `parse_answers(resp_bytes: bytes, offset: int, rr_ans: int) -> list`
 
-`parse_answers` takes the response message bytes, starting position for the answer(s) within the response, and the number of answers. It returns a list of tuples (domain, address, ttl). Do not confuse the *offset* in this function (a better(?) name would be *number_of_bytes_from_the_beginning_of_the_response_to_the_first_answer*) and the *domain_name_start_offset*. Keep in mind that the domain name may be in different format, *label* or *pointer*. You should be able to process both.
+`parse_answers` takes the response message bytes, starting position for the answer(s) within the response, and the number of answers. It returns a list of tuples (domain, address, ttl). Do not confuse the _offset_ in this function (a better(?) name would be _number_of_bytes_from_the_beginning_of_the_response_to_the_first_answer_) and the _domain_name_start_offset_. Keep in mind that the domain name may be in different format, _label_ or _pointer_. You should be able to process both.
 
 Once you've processed an answer, add the results to the list and move to the next one, if present. Once all the answers are collected, return the list of tuples.
 

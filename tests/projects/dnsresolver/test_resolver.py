@@ -1,21 +1,20 @@
-#!/usr/bin/env python3
 """
-`dnsresolver` testing
+Client testing
 
 @authors: Roman Yasinovskyy
-@version: 2024.10
+@version: 2026.10
 """
 
-import importlib
 import pathlib
 import sys
 import tomllib
-from typing import Generator
+from collections.abc import Generator
+from importlib.util import find_spec
 
 import pytest
 
 try:
-    importlib.util.find_spec(".".join(pathlib.Path(__file__).parts[-3:-1]), "src")
+    find_spec(".".join(pathlib.Path(__file__).parts[-3:-1]), "src")
 except ModuleNotFoundError:
     sys.path.append(f"{pathlib.Path(__file__).parents[3]}/")
 finally:
@@ -46,7 +45,7 @@ def get_cases(category: str, *attribs: str) -> Generator:
 
 
 @pytest.mark.parametrize(
-    "number, all_bytes", get_cases("test_case_bytes", "number", "all_bytes")
+    "number, all_bytes", list(get_cases("test_case_bytes", "number", "all_bytes"))
 )
 def test_val_to_2_bytes(number: int, all_bytes: list[int]):
     """Convert a value to 2 bytes"""
@@ -55,7 +54,7 @@ def test_val_to_2_bytes(number: int, all_bytes: list[int]):
 
 @pytest.mark.parametrize(
     "number, n_bytes, all_bytes",
-    get_cases("test_case_bytes", "number", "n_bytes", "all_bytes"),
+    list(get_cases("test_case_bytes", "number", "n_bytes", "all_bytes")),
 )
 def test_val_to_n_bytes(number: int, n_bytes: int, all_bytes: list[int]):
     """Convert a value to n bytes"""
@@ -64,7 +63,7 @@ def test_val_to_n_bytes(number: int, n_bytes: int, all_bytes: list[int]):
 
 @pytest.mark.parametrize(
     "all_bytes, number",
-    get_cases("test_case_bytes", "all_bytes", "number"),
+    list(get_cases("test_case_bytes", "all_bytes", "number")),
 )
 def test_bytes_to_val(all_bytes: list[int], number: int):
     """Convert list of bytes to a value"""
@@ -73,7 +72,7 @@ def test_bytes_to_val(all_bytes: list[int], number: int):
 
 @pytest.mark.parametrize(
     "all_bytes, bit_value",
-    get_cases("test_case_bits", "all_bytes", "bit_value"),
+    list(get_cases("test_case_bits", "all_bytes", "bit_value")),
 )
 def test_get_2_bits(all_bytes: list[int], bit_value: int):
     """Get the first 2 bits from 2 bytes"""
@@ -82,7 +81,7 @@ def test_get_2_bits(all_bytes: list[int], bit_value: int):
 
 @pytest.mark.parametrize(
     "all_bytes, offset",
-    get_cases("test_case_bits", "all_bytes", "offset"),
+    list(get_cases("test_case_bits", "all_bytes", "offset")),
 )
 def test_get_domain_name_location(all_bytes: list[int], offset: int):
     """Get domain name location"""
@@ -91,7 +90,7 @@ def test_get_domain_name_location(all_bytes: list[int], offset: int):
 
 @pytest.mark.parametrize(
     "query, domain_name, record_type, server_address",
-    get_cases("test_case_cli", "query", "domain_name", "record_type", "server_address"),
+    list(get_cases("test_case_cli", "query", "domain_name", "record_type", "server_address")),
 )
 def test_parse_cli_query(
     query: list[str], domain_name: list[str], record_type: int, server_address: str
@@ -108,7 +107,7 @@ def test_parse_cli_query(
 
 @pytest.mark.parametrize(
     "query, error_msg",
-    get_cases("test_case_cli_error", "query", "error_msg"),
+    list(get_cases("test_case_cli_error", "query", "error_msg")),
 )
 def test_parse_cli_query_error(query: list[str], error_msg: str):
     """Parse command-line arguments"""
@@ -120,9 +119,7 @@ def test_parse_cli_query_error(query: list[str], error_msg: str):
 
 @pytest.mark.parametrize(
     "domain_name, record_type, query_data_file",
-    get_cases(
-        "test_case_format_query", "domain_name", "record_type", "query_data_file"
-    ),
+    list(get_cases("test_case_format_query", "domain_name", "record_type", "query_data_file")),
 )
 def test_format_query(domain_name: list[str], record_type: int, query_data_file: str):
     """Format a query, ignore the first two (random) bytes"""
@@ -133,11 +130,13 @@ def test_format_query(domain_name: list[str], record_type: int, query_data_file:
 
 @pytest.mark.parametrize(
     "addr_length, addr_bytes, addr_human",
-    get_cases(
-        "test_case_parse_address_a",
-        "addr_length",
-        "addr_bytes",
-        "addr_human",
+    list(
+        get_cases(
+            "test_case_parse_address_a",
+            "addr_length",
+            "addr_bytes",
+            "addr_human",
+        )
     ),
 )
 def test_parse_address_a(addr_length: int, addr_bytes: list[int], addr_human: str):
@@ -147,11 +146,13 @@ def test_parse_address_a(addr_length: int, addr_bytes: list[int], addr_human: st
 
 @pytest.mark.parametrize(
     "addr_length, addr_bytes, addr_human",
-    get_cases(
-        "test_case_parse_address_aaaa",
-        "addr_length",
-        "addr_bytes",
-        "addr_human",
+    list(
+        get_cases(
+            "test_case_parse_address_aaaa",
+            "addr_length",
+            "addr_bytes",
+            "addr_human",
+        )
     ),
 )
 def test_parse_address_aaaa(addr_length: int, addr_bytes: bytes, addr_human: str):
@@ -161,28 +162,26 @@ def test_parse_address_aaaa(addr_length: int, addr_bytes: bytes, addr_human: str
 
 @pytest.mark.parametrize(
     "response_data_file, offset, number_of_answers, answer",
-    get_cases(
-        "test_case_parse_answers",
-        "response_data_file",
-        "offset",
-        "number_of_answers",
-        "answer",
+    list(
+        get_cases(
+            "test_case_parse_answers",
+            "response_data_file",
+            "offset",
+            "number_of_answers",
+            "answer",
+        )
     ),
 )
-def test_parse_answers(
-    response_data_file: str, offset: int, number_of_answers: int, answer: list
-):
+def test_parse_answers(response_data_file: str, offset: int, number_of_answers: int, answer: list):
     """Parse answers"""
     with open(pathlib.Path(__file__).parent / response_data_file, "rb") as f:
         response_data = f.read()
-    assert parse_answers(response_data, offset, number_of_answers) == [
-        tuple(a) for a in answer
-    ]
+    assert parse_answers(response_data, offset, number_of_answers) == [tuple(a) for a in answer]
 
 
 @pytest.mark.parametrize(
     "response_data_file, answer",
-    get_cases("test_case_parse_response", "response_data_file", "answer"),
+    list(get_cases("test_case_parse_response", "response_data_file", "answer")),
 )
 def test_parse_response(response_data_file: str, answer: list):
     """Parse the response"""
