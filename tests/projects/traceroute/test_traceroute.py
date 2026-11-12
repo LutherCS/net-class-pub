@@ -1,21 +1,20 @@
-#!/usr/bin/env python3
 """
 Testing the traceroute
 
 @author: Roman Yasinovskyy
-@version: 2024.11
+@version: 2026.11
 """
 
-import importlib
 import pathlib
 import sys
+from importlib import util
+from unittest import mock
 
-import mock
 import pytest
 from freezegun import freeze_time
 
 try:
-    importlib.util.find_spec(".".join(pathlib.Path(__file__).parts[-3:-1]), "src")
+    util.find_spec(".".join(pathlib.Path(__file__).parts[-3:-1]), "src")
 except ModuleNotFoundError:
     sys.path.append(f"{pathlib.Path(__file__).parents[3]}/")
 finally:
@@ -46,17 +45,16 @@ def test_format_request():
     assert format_request(1, 1) == b"\x08\x00,i\x00\x01\x00\x01VOTE!"
 
 
-@freeze_time("2024-11-5")
+@freeze_time("2026-11-12")
 def test_send_request():
     """Send request"""
     with mock.patch("socket.socket") as sock:
         assert (
-            send_request(sock, b"\x08\x00,i\x00\x01\x00\x01VOTE!", "127.0.0.1", 128)
-            == 1730764800.0
+            send_request(sock, b"\x08\x00,i\x00\x01\x00\x01VOTE!", "127.0.0.1", 128) == 1794441600.0
         )
 
 
-@freeze_time("2024-11-5")
+@freeze_time("2026-11-12")
 def test_receive_reply():
     """Receive reply"""
     with mock.patch("socket.socket") as sock:
@@ -67,7 +65,7 @@ def test_receive_reply():
         assert receive_reply(sock) == (
             b"\x08\x00,i\x00\x01\x00\x01VOTE!",
             ("127.0.0.1", 0),
-            1730764800.0,
+            1794441600.0,
         )
 
 
